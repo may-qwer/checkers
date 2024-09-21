@@ -1,30 +1,53 @@
 import copy
 from colorama import Back, Style, Fore, init
 
+EMPTY_CELL = " "
+BLACK_CHECKER_CELL = Fore.BLACK + "o"
+BLACK_QUEEN_CHECKER_CELL = Fore.BLACK + "0"
+WHITE_CHECKER_CELL = Fore.LIGHTWHITE_EX + "o"
+WHITE_QUEEN_CHECKER_CELL = Fore.LIGHTWHITE_EX + "0"
+POSSIBLE_CELL = Fore.LIGHTGREEN_EX + "o"
+
 
 BOARD_DICT = {
-              1: "", 2: "b", 3: "", 4: "b", 5: "", 6: "b", 7: "", 8: "b",
-              9: "b", 10: "", 11: "b", 12: "", 13: "b", 14: "", 15: "b", 16: "",
-              17: "", 18: "b", 19: "", 20: "b", 21: "", 22: "b", 23: "", 24: "b",
-              25: "", 26: "", 27: "", 28: "", 29: "", 30: "", 31: "", 32: "",
-              33: "", 34: "", 35: "", 36: "", 37: "", 38: "", 39: "", 40: "",
-              41: "w", 42: "", 43: "w", 44: "", 45: "w", 46: "", 47: "w", 48: "",
-              49: "", 50: "w", 51: "", 52: "w", 53: "", 54: "w", 55: "", 56: "w",
-              57: "w", 58: "", 59: "w", 60: "", 61: "w", 62: "", 63: "w", 64: ""
+              1: EMPTY_CELL, 2: BLACK_CHECKER_CELL, 3: EMPTY_CELL, 4: BLACK_CHECKER_CELL, 5: EMPTY_CELL, 6: BLACK_CHECKER_CELL, 7: EMPTY_CELL, 8: BLACK_CHECKER_CELL,
+              9: BLACK_CHECKER_CELL, 10: EMPTY_CELL, 11: BLACK_CHECKER_CELL, 12: EMPTY_CELL, 13: BLACK_CHECKER_CELL, 14: EMPTY_CELL, 15: BLACK_CHECKER_CELL, 16: EMPTY_CELL,
+              17: EMPTY_CELL, 18: BLACK_CHECKER_CELL, 19: EMPTY_CELL, 20: BLACK_CHECKER_CELL, 21: EMPTY_CELL, 22: BLACK_CHECKER_CELL, 23: EMPTY_CELL, 24: BLACK_CHECKER_CELL,
+              25: EMPTY_CELL, 26: EMPTY_CELL, 27: EMPTY_CELL, 28: EMPTY_CELL, 29: EMPTY_CELL, 30: EMPTY_CELL, 31: EMPTY_CELL, 32: EMPTY_CELL,
+              33: EMPTY_CELL, 34: EMPTY_CELL, 35: EMPTY_CELL, 36: EMPTY_CELL, 37: EMPTY_CELL, 38: EMPTY_CELL, 39: EMPTY_CELL, 40: EMPTY_CELL,
+              41: WHITE_CHECKER_CELL, 42: EMPTY_CELL, 43: WHITE_CHECKER_CELL, 44: EMPTY_CELL, 45: WHITE_CHECKER_CELL, 46: EMPTY_CELL, 47: WHITE_CHECKER_CELL, 48: EMPTY_CELL,
+              49: EMPTY_CELL, 50: WHITE_CHECKER_CELL, 51: EMPTY_CELL, 52: WHITE_CHECKER_CELL, 53: EMPTY_CELL, 54: WHITE_CHECKER_CELL, 55: EMPTY_CELL, 56: WHITE_CHECKER_CELL,
+              57: WHITE_CHECKER_CELL, 58: EMPTY_CELL, 59: WHITE_CHECKER_CELL, 60: EMPTY_CELL, 61: WHITE_CHECKER_CELL, 62: EMPTY_CELL, 63: WHITE_CHECKER_CELL, 64:  EMPTY_CELL
 }
+
+BOARD_COLOR_LIST = [
+    [Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX],
+    [Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE],
+    [Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX],
+    [Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE],
+    [Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX],
+    [Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE],
+    [Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX],
+    [Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE],
+]
+
 
 
 class Board:
-
     def __init__(self):
         pass
 
     def show(self, board):
-        for i in range(4):
-            print(Back.WHITE + Back.LIGHTBLACK_EX + Back.WHITE + Back.LIGHTBLACK_EX + Back.WHITE + Back.LIGHTBLACK_EX + Back.WHITE + Back.LIGHTBLACK_EX)
-            print(Back.LIGHTBLACK_EX + Back.WHITE + Back.LIGHTBLACK_EX + Back.WHITE + Back.LIGHTBLACK_EX + Back.WHITE + Back.LIGHTBLACK_EX + Back.WHITE)
-
-
+        k = 1
+        number = 1
+        for i in BOARD_COLOR_LIST:
+            print(str(number) + " ", end='')
+            for j in i:
+                print(j +' ' + board[k] + ' ', end='')
+                k += 1
+            print(Style.RESET_ALL)
+            number += 1
+        print("   A  B  C  D  E  F  G  H ")
 
 
 class Checker:
