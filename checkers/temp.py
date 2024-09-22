@@ -1,6 +1,5 @@
-from colorama import Fore, Back, Style
-print(Fore.RED + 'some red text')
-print(Back.GREEN + 'and with a green background')
-print(Style.DIM + 'and in dim text')
-print(Style.RESET_ALL)
-print('back to normal now')
+# for i in ["9",  'B',  'C',  'D',  'E', 'F',  'G',  'H' ]:
+#     print(ord(i.lower()) - ord("a"))
+
+if isinstance(int("3"), int):
+    print(3)
