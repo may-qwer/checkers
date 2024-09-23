@@ -34,65 +34,93 @@ BOARD_COLOR_LIST = [
 
 
 class Board:
-    def __init__(self):
-        pass
+    def __init__(self, board):
+        self.board = board
 
-    def show(self, board):
+    def show(self):
         checker_pos = 18
         number = 8
         for i in BOARD_COLOR_LIST:
             print(str(number) + " ", end='')
             for j in i:
-                print(j +' ' + board[checker_pos] + ' ', end='')
+                print(j +' ' + self.board[checker_pos] + ' ', end='')
                 checker_pos += 10
             print(Style.RESET_ALL)
             checker_pos -= 81
             number -= 1
         print("   A  B  C  D  E  F  G  H ")
-        # print("   0  1  2  3  4  5  6  7 ")
+        print("   1  2  3  4  5  6  7  8 ")
+
+    def get_possible_staps(self, checker):
+        pass
+
+    def set_possible_staps(self):
+        pass
 
 
-class Checker:
-    def __init__(self):
+class InputChecker:
+    def __init__(self, iteration):
         self.checker = ''
-        self.stap = ''
+        self.iteration = iteration
 
     def enter_checker(self):
         self.get_checker(input("Enter the checker, which will go (like A3 or a3):"))
 
-    def get_checker(self, stap): #stap = str(A3)
+    def uncurrent_input(self):
+        print(Fore.RED + "Your input is uncurrent. Try again." + Style.RESET_ALL)
+        self.enter_checker()
+
+    def get_checker(self, stap):
         try:
             if not stap[0].isdigit() and stap[1].isdigit():
                 self.checker = str((ord(stap[0].lower()) - ord("a") + 1)) + stap[1]
-                self.show_possible_staps()
+                if self.iteration%2 == 0:
+                    checker = WhiteChecker()
+                else:
+                    checker = BlackChecker()
             else:
                 raise Exception
         except:
-            print(Fore.RED + "Your input is uncurrent. Try again." + Style.RESET_ALL)
-            self.enter_checker()
+            self.uncurrent_input()
 
-    def show_possible_staps(self):
-        #rewtire in BlackChecker and WhiteChecker
-        #board class where show possible staps
-        self.enter_stap()
+
+class Checker:
+    def __init__(self):
+        self.stap = ''
 
     def enter_stap(self):
         self.get_stap(input("Enter one of the staps shown, where the checker will go (like B4 or b4):"))
 
-    def get_stap(self, stap): #stap = str(A3)
-        try:
-            if not stap[0].isdigit() and stap[1].isdigit():
-                self.stap = str((ord(stap[0].lower()) - ord("a") + 1)) + stap[1]
-                # board class where chercker will go in dict and show
-            else:
-                raise Exception
-        except:
-            print(Fore.RED + "Your input is uncurrent. Try again." + Style.RESET_ALL)
-            self.enter_checker()
+    def get_stap(self, stap):
+        pass
+    # def get_stap(self, stap): #stap = str(A3)
+    #     try:
+    #         if not stap[0].isdigit() and stap[1].isdigit():
+    #             self.stap = str((ord(stap[0].lower()) - ord("a") + 1)) + stap[1]
+    #         else:
+    #             raise Exception
+    #     except:
+    #         print(Fore.RED + "Your input is uncurrent. Try again." + Style.RESET_ALL)
+    #         self.enter_checker()
 
 
 class BlackChecker(Checker):
-    pass
+    def __init__(self):
+        super().__init__()
+        self.iteration = 2
+
+    def get_checker(self, checker, board):
+        if board[checker] == EMPTY_CELL:
+            InputChecker(self.iteration).uncurrent_input()
+        staps = [int(checker) - 11, int(checker) + 11]
+        for stap in staps:
+            if stap > 88:
+                staps.remove(stap)
+            elif stap < 11:
+                staps.remove(stap)
+        return staps
+
+
 
 
 class WhiteChecker(Checker):
@@ -108,10 +136,14 @@ class WhiteQueenChecker(WhiteChecker):
 
 def main():
     init()
-    board = Board()
-    board.show(BOARD_DICT)
-    ch = Checker()
-    ch.enter_checker()
+    running = True
+    now_board = copy.deepcopy(BOARD_DICT)
+    iteration = 2 #itaration%2 == 0 go white, iteration%2 != 0 - go black
+    while running:
+        board = Board(now_board)
+        board.show()
+        InputChecker(iteration).enter_checker()
+
 
 
 if __name__ == "__main__":
