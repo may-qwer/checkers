@@ -58,35 +58,26 @@ class Board:
         pass
 
 
-class InputChecker:
-    def __init__(self, iteration):
-        self.checker = ''
-        self.iteration = iteration
+class Checker:
+    def __init__(self, board):
+        self.stap = ''
+        self.board = board
 
     def enter_checker(self):
-        self.get_checker(input("Enter the checker, which will go (like A3 or a3):"))
+        return self.get_checker(input("Enter the checker, which will go (like A3 or a3):"))
 
     def uncurrent_input(self):
         print(Fore.RED + "Your input is uncurrent. Try again." + Style.RESET_ALL)
         self.enter_checker()
 
-    def get_checker(self, stap):
+    def get_checker(self, checker):
         try:
-            if not stap[0].isdigit() and stap[1].isdigit():
-                self.checker = str((ord(stap[0].lower()) - ord("a") + 1)) + stap[1]
-                if self.iteration%2 == 0:
-                    checker = WhiteChecker()
-                else:
-                    checker = BlackChecker()
+            if not checker[0].isdigit() and checker[1].isdigit() or self.board[checker] == EMPTY_CELL:
+                return str((ord(checker[0].lower()) - ord("a") + 1)) + checker[1]
             else:
                 raise Exception
         except:
             self.uncurrent_input()
-
-
-class Checker:
-    def __init__(self):
-        self.stap = ''
 
     def enter_stap(self):
         self.get_stap(input("Enter one of the staps shown, where the checker will go (like B4 or b4):"))
@@ -105,18 +96,14 @@ class Checker:
 
 
 class BlackChecker(Checker):
-    def __init__(self):
-        super().__init__()
-        self.iteration = 2
-
-    def get_checker(self, checker, board):
-        if board[checker] == EMPTY_CELL:
-            InputChecker(self.iteration).uncurrent_input()
-        staps = [int(checker) - 11, int(checker) + 11]
+    def get_possible_staps(self, checker):
+        staps = [int(checker) - 11, int(checker) + 9]
         for stap in staps:
             if stap > 88:
                 staps.remove(stap)
             elif stap < 11:
+                staps.remove(stap)
+            elif self.board[stap] != EMPTY_CELL:
                 staps.remove(stap)
         return staps
 
@@ -124,7 +111,16 @@ class BlackChecker(Checker):
 
 
 class WhiteChecker(Checker):
-    pass
+    def get_possible_staps(self, checker):
+        staps = [int(checker) + 11, int(checker) - 9]
+        for stap in staps:
+            if stap > 88:
+                staps.remove(stap)
+            elif stap < 11:
+                staps.remove(stap)
+            elif self.board[stap] != EMPTY_CELL:
+                staps.remove(stap)
+        return staps
 
 
 class BlackQueenChecker(BlackChecker):
@@ -142,7 +138,15 @@ def main():
     while running:
         board = Board(now_board)
         board.show()
-        InputChecker(iteration).enter_checker()
+        if iteration % 2 == 0:
+            checker = WhiteChecker(now_board)
+        else:
+            checker = BlackChecker(now_board)
+        chosen_checker = checker.enter_checker()
+        print(checker.get_possible_staps(chosen_checker))
+        iteration += 1
+        del checker
+
 
 
 
