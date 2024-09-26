@@ -51,33 +51,40 @@ class Board:
         print("   A  B  C  D  E  F  G  H ")
         print("   1  2  3  4  5  6  7  8 ")
 
+    def make_possible_staps(self, staps):
+        for stap in staps:
+            self.board[stap] = POSSIBLE_CELL
+
 
 class Checker:
     def __init__(self, board):
         self.stap = ''
         self.board = board
-        self.str_checker = ''
 
     def enter_checker(self):
-        self.str_checker = input("Enter the checker, which will go (like A3 or a3):")
+        return self.get_checker(input("Enter the checker, which will go (like A3 or a3):"))
 
     def uncurrent_input(self):
         print(Fore.RED + "Your input is uncurrent. Try again." + Style.RESET_ALL)
         self.enter_checker()
 
-    def get_checker(self):
+    def get_checker(self, str_checker):
         try:
-            if not self.str_checker[0].isdigit() and self.str_checker[1].isdigit():
-                num_checker = int(str(ord(self.str_checker[0].lower()) - ord("a") + 1) + self.str_checker[1])
+            if not str_checker[0].isdigit() and str_checker[1].isdigit():
+                num_checker = int(str(ord(str_checker[0].lower()) - ord("a") + 1) + str_checker[1])
                 if self.board[num_checker] != EMPTY_CELL:
-                    print(type(num_checker))
                     return num_checker
                 else:
                     raise Exception
             else:
                 raise Exception
         except:
+            del str_checker, num_checker
             self.uncurrent_input()
+
+    def enter_stap(self):
+        return input("Enter the stap (like B4 or b4):")
+
 
 
 class BlackChecker(Checker):
@@ -125,14 +132,21 @@ def main():
         board.show()
         if iteration % 2 == 0:
             checker = WhiteChecker(now_board)
+            print(Fore.GREEN, 'White go:', Style.RESET_ALL)
         else:
             checker = BlackChecker(now_board)
-        print(1)
-        checker.enter_checker()
-        print(2)
-        chosen_checker = checker.get_checker()
-        print(3)
-        # possible_staps = checker.get_possible_staps(chosen_checker)
+            print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
+        chosen_checker = checker.enter_checker()
+        print()
+        print(21*'-')
+        print()
+        possible_staps = checker.get_possible_staps(chosen_checker)
+        possible_board = Board(copy.deepcopy(now_board))
+        possible_board.make_possible_staps(possible_staps)
+        possible_board.show()
+        del possible_board
+        checker.enter_stap()
+        print(21*'-')
         iteration += 1
         del checker
 
