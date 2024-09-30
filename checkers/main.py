@@ -1,5 +1,6 @@
 import copy
 from colorama import Back, Style, Fore, init
+from exceptions import NotCorrectCell, NotCorrectInput
 
 EMPTY_CELL = " "
 BLACK_CHECKER_CELL = Fore.BLACK + "o"
@@ -58,33 +59,61 @@ class Board:
 
 class Checker:
     def __init__(self, board):
-        self.stap = ''
         self.board = board
+        self.out_checker = ''
+        self.out_stap = ''
 
     def enter_checker(self):
-        return self.get_checker(input("Enter the checker, which will go (like A3 or a3):"))
+        self.get_checker(input("Enter the checker, which will go (like A3 or a3):"))
 
-    def uncurrent_input(self):
+    def not_correct_checker_input(self):
         print(Fore.RED + "Your input is uncurrent. Try again." + Style.RESET_ALL)
+        self.out_checker = ''
         self.enter_checker()
 
     def get_checker(self, str_checker):
         try:
             if not str_checker[0].isdigit() and str_checker[1].isdigit():
-                num_checker = int(str(ord(str_checker[0].lower()) - ord("a") + 1) + str_checker[1])
-                if self.board[num_checker] != EMPTY_CELL:
-                    return num_checker
+                num_checker = str(ord(str_checker[0].lower()) - ord("a") + 1) + str_checker[1]
+                if self.board[int(num_checker)] != EMPTY_CELL:
+                    self.out_checker = num_checker
+                else:
+                    raise NotCorrectCell
+            else:
+                raise NotCorrectInput
+        except NotCorrectCell as ex:
+            del str_checker, num_checker
+            self.not_correct_checker_input()
+            ex(self, not_correct_checker_input)
+            ex
+        except NotCorrectInput as ex:
+            del str_checker, num_checker
+            self.not_correct_checker_input()
+
+    def enter_stap(self):
+        self.get_stap(input("Enter one of stap (like b4 or b4):"))
+
+    def not_correct_stap_input(self):
+        print(Fore.RED + "Your input is not correct. Try again." + Style.RESET_ALL)
+        self.out_stap = ''
+        self.enter_stap()
+
+    def get_stap(self, str_stap, staps):
+        try:
+            if not str_stap[0].isdigit() and str_stap[1].isdigit():
+                num_stap = str(ord(str_stap[0].lower()) - ord("a") + 1) + str_stap[1]
+                if self.board[int(num_stap)] == EMPTY_CELL and int(num_stap) in staps:
+                    self.out_stap = num_stap
                 else:
                     raise Exception
             else:
                 raise Exception
         except:
-            del str_checker, num_checker
-            self.uncurrent_input()
+            del str_stap, num_stap
+            self.not_correct_stap_input()
 
-    def enter_stap(self):
-        return input("Enter the stap (like B4 or b4):")
-
+    def make_stap(self, stap):
+        pass
 
 
 class BlackChecker(Checker):
@@ -122,6 +151,7 @@ class BlackQueenChecker(BlackChecker):
 class WhiteQueenChecker(WhiteChecker):
     pass
 
+
 def main():
     init()
     running = True
@@ -136,7 +166,11 @@ def main():
         else:
             checker = BlackChecker(now_board)
             print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
-        chosen_checker = checker.enter_checker()
+        checker.enter_checker()
+        chosen_checker = checker.out_checker
+        if chosen_checker == '':
+            checker.enter_checker()
+        chosen_checker = int(chosen_checker)
         print()
         print(21*'-')
         print()
@@ -146,7 +180,13 @@ def main():
         possible_board.show()
         del possible_board
         checker.enter_stap()
+        chosen_stap = checker.out_stap
+        if chosen_stap == '':
+            checker.enter_stap()
+        chosen_stap = int(chosen_stap)
         print(21*'-')
+
+
         iteration += 1
         del checker
 
