@@ -83,12 +83,14 @@ class Checker:
                 raise NotCorrectInput
         except NotCorrectCell as ex:
             del str_checker, num_checker
-            self.not_correct_checker_input()
-            ex(self, not_correct_checker_input)
-            ex
+            ex('You chose empty cell.')
+            self.out_checker = ''
+            self.enter_checker()
         except NotCorrectInput as ex:
-            del str_checker, num_checker
-            self.not_correct_checker_input()
+            ex(str_checker)
+            del str_checker
+            self.out_checker = ''
+            self.enter_checker()
 
     def enter_stap(self):
         self.get_stap(input("Enter one of stap (like b4 or b4):"))
@@ -100,19 +102,26 @@ class Checker:
 
     def get_stap(self, str_stap, staps):
         try:
-            if not str_stap[0].isdigit() and str_stap[1].isdigit():
+            if not str_stap[0].isdigit() and str_stap[1].isdigit() and len(str_stap) == 2:
                 num_stap = str(ord(str_stap[0].lower()) - ord("a") + 1) + str_stap[1]
-                if self.board[int(num_stap)] == EMPTY_CELL and int(num_stap) in staps:
+                if int(num_stap) in staps:
                     self.out_stap = num_stap
                 else:
-                    raise Exception
+                    raise NotCorrectCell
             else:
-                raise Exception
-        except:
+                raise NotCorrectInput
+        except NotCorrectCell as ex:
             del str_stap, num_stap
-            self.not_correct_stap_input()
+            ex('You chose cell, you can not go into.')
+            self.out_checker = ''
+            self.enter_checker()
+        except NotCorrectInput as ex:
+            ex(str_stap)
+            del str_stap, num_stap
+            self.out_checker = ''
+            self.enter_checker()
 
-    def make_stap(self, stap):
+    def make_stap(self):
         pass
 
 
