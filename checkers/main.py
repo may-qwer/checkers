@@ -66,6 +66,8 @@ class Board:
 
     def make_possible_staps(self, staps):
         for stap in staps:
+            if stap > 100:
+                stap /= 1000
             self.board[stap] = POSSIBLE_CELL
 
 
@@ -136,7 +138,7 @@ class BlackChecker(Checker):
             elif self.board[stap] == BLACK_CHECKER_CELL:
                 staps.remove(stap)
             elif self.board[stap] == WHITE_CHECKER_CELL and self.board[stap+(stap-checker)] == EMPTY_CELL:
-                staps.append(stap+(stap-checker))
+                staps.append((stap+(stap-checker)*1000))
                 staps.remove(stap)
         return staps
 
@@ -156,7 +158,7 @@ class WhiteChecker(Checker):
             elif self.board[stap] == WHITE_CHECKER_CELL:
                 staps.remove(stap)
             elif self.board[stap] == BLACK_CHECKER_CELL and self.board[stap+(stap-checker)] == EMPTY_CELL:
-                staps.append(stap+(stap-checker))
+                staps.append((stap+(stap-checker)*1000))
                 staps.remove(stap)
         return staps
 
