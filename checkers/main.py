@@ -9,28 +9,31 @@ WHITE_CHECKER_CELL = Fore.LIGHTWHITE_EX + "o"
 WHITE_QUEEN_CHECKER_CELL = Fore.LIGHTWHITE_EX + "0"
 POSSIBLE_CELL = Fore.LIGHTGREEN_EX + "o"
 
+BLACK_WIN = Fore.CYAN + 'Black WIN!!! Congratulations' + Style.RESET_ALL
+WHITE_WIN = Fore.CYAN + 'White WIN!!! Congratulations' + Style.RESET_ALL
 
-BOARD_DICT = {
-              18: EMPTY_CELL, 28: BLACK_CHECKER_CELL, 38: EMPTY_CELL, 48: BLACK_CHECKER_CELL, 58: EMPTY_CELL, 68: BLACK_CHECKER_CELL, 78: EMPTY_CELL, 88: BLACK_CHECKER_CELL,
-              17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: BLACK_CHECKER_CELL, 47: EMPTY_CELL, 57: BLACK_CHECKER_CELL, 67: EMPTY_CELL, 77: BLACK_CHECKER_CELL, 87: EMPTY_CELL,
-              16: EMPTY_CELL, 26: BLACK_CHECKER_CELL, 36: EMPTY_CELL, 46: BLACK_CHECKER_CELL, 56: EMPTY_CELL, 66: BLACK_CHECKER_CELL, 76: EMPTY_CELL, 86: BLACK_CHECKER_CELL,
-              15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
-              14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
-              13: WHITE_CHECKER_CELL, 23: EMPTY_CELL, 33: WHITE_CHECKER_CELL, 43: EMPTY_CELL, 53: WHITE_CHECKER_CELL, 63: EMPTY_CELL, 73: WHITE_CHECKER_CELL, 83: EMPTY_CELL,
-              12: EMPTY_CELL, 22: WHITE_CHECKER_CELL, 32: EMPTY_CELL, 42: WHITE_CHECKER_CELL, 52: EMPTY_CELL, 62: WHITE_CHECKER_CELL, 72: EMPTY_CELL, 82: WHITE_CHECKER_CELL,
-              11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: WHITE_CHECKER_CELL, 41: EMPTY_CELL, 51: WHITE_CHECKER_CELL, 61: EMPTY_CELL, 71: WHITE_CHECKER_CELL, 81:  EMPTY_CELL
-}
 
 # BOARD_DICT = {
 #               18: EMPTY_CELL, 28: BLACK_CHECKER_CELL, 38: EMPTY_CELL, 48: BLACK_CHECKER_CELL, 58: EMPTY_CELL, 68: BLACK_CHECKER_CELL, 78: EMPTY_CELL, 88: BLACK_CHECKER_CELL,
 #               17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: BLACK_CHECKER_CELL, 47: EMPTY_CELL, 57: BLACK_CHECKER_CELL, 67: EMPTY_CELL, 77: BLACK_CHECKER_CELL, 87: EMPTY_CELL,
 #               16: EMPTY_CELL, 26: BLACK_CHECKER_CELL, 36: EMPTY_CELL, 46: BLACK_CHECKER_CELL, 56: EMPTY_CELL, 66: BLACK_CHECKER_CELL, 76: EMPTY_CELL, 86: BLACK_CHECKER_CELL,
-#               15: EMPTY_CELL, 25: BLACK_CHECKER_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
-#               14: WHITE_CHECKER_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
+#               15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
+#               14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
 #               13: WHITE_CHECKER_CELL, 23: EMPTY_CELL, 33: WHITE_CHECKER_CELL, 43: EMPTY_CELL, 53: WHITE_CHECKER_CELL, 63: EMPTY_CELL, 73: WHITE_CHECKER_CELL, 83: EMPTY_CELL,
 #               12: EMPTY_CELL, 22: WHITE_CHECKER_CELL, 32: EMPTY_CELL, 42: WHITE_CHECKER_CELL, 52: EMPTY_CELL, 62: WHITE_CHECKER_CELL, 72: EMPTY_CELL, 82: WHITE_CHECKER_CELL,
 #               11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: WHITE_CHECKER_CELL, 41: EMPTY_CELL, 51: WHITE_CHECKER_CELL, 61: EMPTY_CELL, 71: WHITE_CHECKER_CELL, 81:  EMPTY_CELL
 # }
+
+BOARD_DICT = {
+              18: EMPTY_CELL, 28: EMPTY_CELL, 38: EMPTY_CELL, 48: EMPTY_CELL, 58: EMPTY_CELL, 68: EMPTY_CELL, 78: EMPTY_CELL, 88: EMPTY_CELL,
+              17: EMPTY_CELL, 27: EMPTY_CELL, 37: EMPTY_CELL, 47: EMPTY_CELL, 57: EMPTY_CELL, 67: EMPTY_CELL, 77: EMPTY_CELL, 87: EMPTY_CELL,
+              16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: EMPTY_CELL, 56: EMPTY_CELL, 66: EMPTY_CELL, 76: EMPTY_CELL, 86: EMPTY_CELL,
+              15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
+              14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
+              13: EMPTY_CELL, 23: EMPTY_CELL, 33: EMPTY_CELL, 43: EMPTY_CELL, 53: EMPTY_CELL, 63: EMPTY_CELL, 73: EMPTY_CELL, 83: EMPTY_CELL,
+              12: EMPTY_CELL, 22: BLACK_CHECKER_CELL, 32: EMPTY_CELL, 42: EMPTY_CELL, 52: EMPTY_CELL, 62: EMPTY_CELL, 72: EMPTY_CELL, 82: EMPTY_CELL,
+              11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: EMPTY_CELL, 41: EMPTY_CELL, 51: EMPTY_CELL, 61: EMPTY_CELL, 71: EMPTY_CELL, 81:  EMPTY_CELL
+}
 
 
 BOARD_COLOR_LIST = [
@@ -68,6 +71,19 @@ class Board:
         for stap in staps:
             self.board[stap] = POSSIBLE_CELL
 
+    def is_win(self):
+        count = [0, 0] # count[0] - white, count[1] - black
+        for checker in self.board:
+            if checker == WHITE_CHECKER_CELL:
+                count[0] += 1
+            elif checker == BLACK_CHECKER_CELL:
+                count[1] += 1
+        if count[0] == 0:
+            return BLACK_WIN
+        elif count[1] == 0:
+            return WHITE_WIN
+        else:
+            return 0
 
 class Checker:
     def __init__(self, board):
@@ -75,12 +91,12 @@ class Checker:
         self.out_checker = ''
         self.out_stap = ''
 
-    def enter_checker(self):
-        self.get_checker(input("Enter the checker, which will go (like A3 or a3):"))
+    def enter_checker(self, in_str = "Enter the checker, which will go (like A3 or a3):"):
+        self.get_checker(input(in_str))
 
     def get_checker(self, str_checker):
         try:
-            if not str_checker[0].isdigit() and str_checker[1].isdigit() and len(str_checker) == 2:
+            if len(str_checker) == 2 and not str_checker[0].isdigit() and str_checker[1].isdigit():
                 num_checker = str(ord(str_checker[0].lower()) - ord("a") + 1) + str_checker[1]
                 if int(num_checker[0]) >= 1 and int(num_checker[0]) <= 8 and int(num_checker[1]) >= 1 and int(num_checker[1]) <= 8 and self.board[int(num_checker)] != EMPTY_CELL:
                     self.out_checker = num_checker
@@ -129,17 +145,18 @@ class BlackChecker(Checker):
     def get_possible_staps(self, checker):
         eating_checker_and_stap = []
         staps = [checker - 11, checker + 9]
-        for stap in staps:
+        for stap_index, stap in enumerate(staps):
             if stap > 88:
-                staps.remove(stap)
+                staps[stap_index] = 0
             elif stap < 11:
-                staps.remove(stap)
+                staps[stap_index] = 0
             elif self.board[stap] == BLACK_CHECKER_CELL:
-                staps.remove(stap)
+                staps[stap_index] = 0
             elif self.board[stap] == WHITE_CHECKER_CELL and self.board[stap+(stap-checker)] == EMPTY_CELL:
                 staps.append(stap+(stap-checker))
                 eating_checker_and_stap = [stap, (stap+(stap-checker))]
-                staps.remove(stap)
+                staps[stap_index] = 0
+        staps = [stap for stap in staps if stap != 0]
         return staps, eating_checker_and_stap
 
     def make_stap(self, eating_checker_and_stap):
@@ -153,19 +170,18 @@ class WhiteChecker(Checker):
     def get_possible_staps(self, checker):
         eating_checker_and_stap = []
         staps = [checker + 11, checker - 9]
-        print(staps)
-        for stap in staps:
-            print(stap)
+        for stap_index, stap in enumerate(staps):
             if stap > 88:
-                staps.remove(stap)
+                staps[stap_index] = 0
             elif stap < 11:
-                staps.remove(stap)
+                staps[stap_index] = 0
             elif self.board[stap] == WHITE_CHECKER_CELL:
-                staps.remove(stap)
+                staps[stap_index] = 0
             elif self.board[stap] == BLACK_CHECKER_CELL and self.board[stap+(stap-checker)] == EMPTY_CELL:
                 staps.append((stap+(stap-checker)))
                 eating_checker_and_stap = [stap, (stap+(stap-checker))]
-                staps.remove(stap)
+                staps[stap_index] = 0
+        staps = [stap for stap in staps if stap != 0]
         return staps, eating_checker_and_stap
 
     def make_stap(self, eating_checker_and_stap):
@@ -173,8 +189,6 @@ class WhiteChecker(Checker):
             self.board[int(eating_checker_and_stap[0])] = EMPTY_CELL
         self.board[int(self.out_checker)] = EMPTY_CELL
         self.board[int(self.out_stap)] = WHITE_CHECKER_CELL
-
-
 
 
 class BlackQueenChecker(BlackChecker):
@@ -187,44 +201,70 @@ class WhiteQueenChecker(WhiteChecker):
 
 def main():
     init()
-    running = True
-    now_board = copy.deepcopy(BOARD_DICT)
-    iteration = 2 #itaration%2 == 0 go white, iteration%2 != 0 - go black
-    #iteration = 3
-    while running:
-        board = Board(now_board)
-        board.show()
-        if iteration % 2 == 0:
-            checker = WhiteChecker(now_board)
-            print(Fore.GREEN, 'White go:', Style.RESET_ALL)
-        else:
-            checker = BlackChecker(now_board)
-            print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
-        checker.enter_checker()
-        chosen_checker = checker.out_checker
-        if chosen_checker == '':
-            checker.enter_checker()
-        chosen_checker = int(chosen_checker)
-        print()
-        print(21*'-')
-        print()
-        possible_staps, eating_checker_and_stap = checker.get_possible_staps(chosen_checker)
-        possible_board = Board(copy.deepcopy(now_board))
-        possible_board.make_possible_staps(possible_staps)
-        possible_board.show()
-        del possible_board
-        checker.enter_stap(possible_staps)
-        if checker.out_stap == '':
+    one_more = True
+    while one_more:
+        running = True
+        now_board = copy.deepcopy(BOARD_DICT)
+        iteration = 2 #itaration%2 == 0 go white, iteration%2 != 0 - go black
+        #iteration = 3
+        while running:
+            board = Board(now_board)
+            board.show()
+            if iteration % 2 == 0:
+                checker = WhiteChecker(now_board)
+                print(Fore.GREEN, 'White go:', Style.RESET_ALL)
+            else:
+                checker = BlackChecker(now_board)
+                print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
+            check_checker = True
+            while check_checker:
+                checker.enter_checker()
+                chosen_checker = checker.out_checker
+                if chosen_checker != '':
+                    check_checker = False
+            chosen_checker = int(chosen_checker)
+            print()
+            print(21*'-')
+            print()
+            check_possible_staps = True
+            while check_possible_staps:
+                possible_staps, eating_checker_and_stap = checker.get_possible_staps(chosen_checker)
+                if len(possible_staps) == 0:
+                    board.show()
+                    if iteration % 2 == 0:
+                        print(Fore.GREEN, 'White go:', Style.RESET_ALL)
+                    else:
+                        print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
+                    checker.enter_checker('You chose checker, which can not go. Try again:')
+                    chosen_checker = int(checker.out_checker)
+                    possible_staps, eating_checker_and_stap = checker.get_possible_staps(chosen_checker)
+                else:
+                    check_possible_staps = False
+            possible_board = Board(copy.deepcopy(now_board))
+            possible_board.make_possible_staps(possible_staps)
+            possible_board.show()
+            del possible_board
             checker.enter_stap(possible_staps)
-        checker.make_stap(eating_checker_and_stap)
-        print(21*'-')
-
-
-        iteration += 1
-        del checker
-
-
-
+            if checker.out_stap == '':
+                checker.enter_stap(possible_staps)
+            checker.make_stap(eating_checker_and_stap)
+            print(21*'-')
+            iw = board.is_win()
+            if iw != 0:
+                print(iw)
+                check_input_cg = True
+                while check_input_cg:
+                    continue_game = input('Would you like to play one more game?!(Y/n):')
+                    if continue_game.lower != 'y' or continue_game.lower != 'n':
+                        check_input_cg = False
+                if continue_game.lower == 'y':
+                    one_more = True
+                    break
+                else:
+                    one_more = False
+                    break
+            iteration += 1
+            del checker
 
 if __name__ == "__main__":
     main()
