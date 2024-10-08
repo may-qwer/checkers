@@ -29,7 +29,7 @@ BOARD_DICT = {
               17: EMPTY_CELL, 27: EMPTY_CELL, 37: EMPTY_CELL, 47: EMPTY_CELL, 57: EMPTY_CELL, 67: EMPTY_CELL, 77: EMPTY_CELL, 87: EMPTY_CELL,
               16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: EMPTY_CELL, 56: EMPTY_CELL, 66: EMPTY_CELL, 76: EMPTY_CELL, 86: EMPTY_CELL,
               15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
-              14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
+              14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: BLACK_CHECKER_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
               13: EMPTY_CELL, 23: EMPTY_CELL, 33: EMPTY_CELL, 43: EMPTY_CELL, 53: EMPTY_CELL, 63: EMPTY_CELL, 73: EMPTY_CELL, 83: EMPTY_CELL,
               12: EMPTY_CELL, 22: BLACK_CHECKER_CELL, 32: EMPTY_CELL, 42: EMPTY_CELL, 52: EMPTY_CELL, 62: EMPTY_CELL, 72: EMPTY_CELL, 82: EMPTY_CELL,
               11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: EMPTY_CELL, 41: EMPTY_CELL, 51: EMPTY_CELL, 61: EMPTY_CELL, 71: EMPTY_CELL, 81:  EMPTY_CELL
@@ -142,9 +142,9 @@ class Checker:
 
 
 class BlackChecker(Checker):
-    def get_possible_staps(self, checker):
+    def get_possible_staps(self):
         eating_checker_and_stap = []
-        staps = [checker - 11, checker + 9]
+        staps = [int(self.out_checker) - 11, int(self.out_checker) + 9]
         for stap_index, stap in enumerate(staps):
             if stap > 88:
                 staps[stap_index] = 0
@@ -152,9 +152,9 @@ class BlackChecker(Checker):
                 staps[stap_index] = 0
             elif self.board[stap] == BLACK_CHECKER_CELL:
                 staps[stap_index] = 0
-            elif self.board[stap] == WHITE_CHECKER_CELL and self.board[stap+(stap-checker)] == EMPTY_CELL:
-                staps.append(stap+(stap-checker))
-                eating_checker_and_stap = [stap, (stap+(stap-checker))]
+            elif self.board[stap] == WHITE_CHECKER_CELL and self.board[stap+(stap-int(self.out_checker))] == EMPTY_CELL:
+                staps.append(stap+(stap-int(self.out_checker)))
+                eating_checker_and_stap = [stap, (stap+(stap-int(self.out_checker)))]
                 staps[stap_index] = 0
         staps = [stap for stap in staps if stap != 0]
         return staps, eating_checker_and_stap
@@ -167,9 +167,9 @@ class BlackChecker(Checker):
 
 
 class WhiteChecker(Checker):
-    def get_possible_staps(self, checker):
+    def get_possible_staps(self):
         eating_checker_and_stap = []
-        staps = [checker + 11, checker - 9]
+        staps = [int(self.out_checker) + 11, int(self.out_checker) - 9]
         for stap_index, stap in enumerate(staps):
             if stap > 88:
                 staps[stap_index] = 0
@@ -177,9 +177,9 @@ class WhiteChecker(Checker):
                 staps[stap_index] = 0
             elif self.board[stap] == WHITE_CHECKER_CELL:
                 staps[stap_index] = 0
-            elif self.board[stap] == BLACK_CHECKER_CELL and self.board[stap+(stap-checker)] == EMPTY_CELL:
-                staps.append((stap+(stap-checker)))
-                eating_checker_and_stap = [stap, (stap+(stap-checker))]
+            elif self.board[stap] == BLACK_CHECKER_CELL and self.board[stap+(stap-int(self.out_checker))] == EMPTY_CELL:
+                staps.append((stap + (stap - int(self.out_checker))))
+                eating_checker_and_stap = [stap, (stap + (stap - int(self.out_checker)))]
                 staps[stap_index] = 0
         staps = [stap for stap in staps if stap != 0]
         return staps, eating_checker_and_stap
@@ -189,6 +189,9 @@ class WhiteChecker(Checker):
             self.board[int(eating_checker_and_stap[0])] = EMPTY_CELL
         self.board[int(self.out_checker)] = EMPTY_CELL
         self.board[int(self.out_stap)] = WHITE_CHECKER_CELL
+
+    # def can_eat_more(self, staps, stap):
+
 
 
 class BlackQueenChecker(BlackChecker):
@@ -228,7 +231,7 @@ def main():
             print()
             check_possible_staps = True
             while check_possible_staps:
-                possible_staps, eating_checker_and_stap = checker.get_possible_staps(chosen_checker)
+                possible_staps, eating_checker_and_stap = checker.get_possible_staps()
                 if len(possible_staps) == 0:
                     board.show()
                     if iteration % 2 == 0:
@@ -237,7 +240,7 @@ def main():
                         print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
                     checker.enter_checker('You chose checker, which can not go. Try again:')
                     chosen_checker = int(checker.out_checker)
-                    possible_staps, eating_checker_and_stap = checker.get_possible_staps(chosen_checker)
+                    possible_staps, eating_checker_and_stap = checker.get_possible_staps()
                 else:
                     check_possible_staps = False
             possible_board = Board(copy.deepcopy(now_board))
@@ -255,11 +258,12 @@ def main():
                 check_input_cg = True
                 while check_input_cg:
                     continue_game = input('Would you like to play one more game?!(Y/n):')
-                    if continue_game.lower != 'y' or continue_game.lower != 'n':
+                    if continue_game.lower() == 'y' or continue_game.lower() == 'n':
                         check_input_cg = False
-                if continue_game.lower == 'y':
+                if continue_game.lower() == 'y':
+                    running = False
                     one_more = True
-                    break
+                    continue
                 else:
                     one_more = False
                     break
