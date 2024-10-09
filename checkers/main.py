@@ -9,8 +9,8 @@ WHITE_CHECKER_CELL = Fore.LIGHTWHITE_EX + "o"
 WHITE_QUEEN_CHECKER_CELL = Fore.LIGHTWHITE_EX + "0"
 POSSIBLE_CELL = Fore.LIGHTGREEN_EX + "o"
 
-BLACK_WIN = Fore.CYAN + 'Black WIN!!! Congratulations' + Style.RESET_ALL
-WHITE_WIN = Fore.CYAN + 'White WIN!!! Congratulations' + Style.RESET_ALL
+BLACK_WIN = Fore.CYAN + 'Black WIN!!! Congratulations!!!' + Style.RESET_ALL
+WHITE_WIN = Fore.CYAN + 'White WIN!!! Congratulations!!!' + Style.RESET_ALL
 
 
 # BOARD_DICT = {
@@ -74,9 +74,9 @@ class Board:
     def is_win(self):
         count = [0, 0] # count[0] - white, count[1] - black
         for checker in self.board:
-            if checker == WHITE_CHECKER_CELL:
+            if self.board[checker] == WHITE_CHECKER_CELL:
                 count[0] += 1
-            elif checker == BLACK_CHECKER_CELL:
+            elif self.board[checker] == BLACK_CHECKER_CELL:
                 count[1] += 1
         if count[0] == 0:
             return BLACK_WIN
@@ -90,6 +90,7 @@ class Checker:
         self.board = board
         self.out_checker = ''
         self.out_stap = ''
+        self.eat_checker = 0
 
     def enter_checker(self, in_str = "Enter the checker, which will go (like A3 or a3):"):
         self.get_checker(input(in_str))
@@ -139,6 +140,24 @@ class Checker:
             self.out_checker = ''
             self.enter_stap(staps)
 
+    def can_eat_ques(self, checker):
+        staps = [(checker - 11), (checker + 11), (checker - 9), (checker + 9)]
+        for stap in staps:
+            if stap in self.board and not self.board[stap] == BLACK_CHECKER_CELL :
+                if self.board[stap] == BLACK_CHECKER_CELL and self.board[2*stap - checker]:
+                    self.eat_checker = stap
+                    print(self.eat_checker)
+                    return True
+                else:
+                    return False
+
+    def eat(self, staps, eating_checker_and_stap):
+        staps.append(self.eat_checker)
+        eating_checker_and_stap += [self.eat_checker,  (self.eat_checker + (self.eat_checker - int(self.out_checker)))]
+        if self.can_eat_ques(int(self.eat_checker)):
+            self.eat(staps, eating_checker_and_stap)
+        return staps, eating_checker_and_stap
+
 
 
 class BlackChecker(Checker):
@@ -169,18 +188,26 @@ class BlackChecker(Checker):
 class WhiteChecker(Checker):
     def get_possible_staps(self):
         eating_checker_and_stap = []
+        #if self.can_eat_ques(int(self.out_checker)):
+        #   self.eat()
+        #else: this
         staps = [int(self.out_checker) + 11, int(self.out_checker) - 9]
         for stap_index, stap in enumerate(staps):
-            if stap > 88:
-                staps[stap_index] = 0
-            elif stap < 11:
+            if not stap in self.board:
                 staps[stap_index] = 0
             elif self.board[stap] == WHITE_CHECKER_CELL:
                 staps[stap_index] = 0
-            elif self.board[stap] == BLACK_CHECKER_CELL and self.board[stap+(stap-int(self.out_checker))] == EMPTY_CELL:
-                staps.append((stap + (stap - int(self.out_checker))))
-                eating_checker_and_stap = [stap, (stap + (stap - int(self.out_checker)))]
-                staps[stap_index] = 0
+            elif self.can_eat_ques(int(self.out_checker)):
+                staps_temp, eating_checker_and_stap_temp = self.eat(staps, eating_checker_and_stap)
+                staps += staps_temp
+                eating_checker_and_stap += eating_checker_and_stap_temp
+                # staps.append((stap + (stap - checker)))
+                # eating_checker_and_stap += [stap, (stap + (stap - checker))]
+                # staps[stap_index] = 0
+                # s, ech = self.get_possible_staps(stap + (stap - checker))
+                # staps += s
+                # eating_checker_and_stap += ech
+        self.eat_checker = 0
         staps = [stap for stap in staps if stap != 0]
         return staps, eating_checker_and_stap
 
@@ -190,7 +217,7 @@ class WhiteChecker(Checker):
         self.board[int(self.out_checker)] = EMPTY_CELL
         self.board[int(self.out_stap)] = WHITE_CHECKER_CELL
 
-    # def can_eat_more(self, staps, stap):
+
 
 
 
@@ -253,7 +280,9 @@ def main():
             checker.make_stap(eating_checker_and_stap)
             print(21*'-')
             iw = board.is_win()
+            print(iw)
             if iw != 0:
+                board.show()
                 print(iw)
                 check_input_cg = True
                 while check_input_cg:
