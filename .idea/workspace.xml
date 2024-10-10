@@ -1,45 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="89d03a02-c44d-4778-8b99-e21728e02963" name="Changes" comment="" />
+    <list default="true" id="8a221365-db24-4ccf-8d18-770f28b38db9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/checkers.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/checkers.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RomenClock/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RomenClock/.idea/RomenClock.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RomenClock/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RomenClock/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RomenClock/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RomenClock/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RomenClock/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/checkers/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/checkers/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 1
-}]]></component>
-  <component name="ProjectId" id="2mLEUoOiGNDja0sclkz0mnicPAp" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2hax6QYtH3vhYPSDk92T5LCwODS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.main.executor": "Run",
+    "Python.temp.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main"
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "E:/python/repositories/checkers/checkers",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-98f27166c754-ba05f1cad1b1-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.21829.153" />
+        <option value="bundled-python-sdk-48aec45f0201-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.17011.127" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="89d03a02-c44d-4778-8b99-e21728e02963" name="Changes" comment="" />
-      <created>1726847475788</created>
+      <changelist id="8a221365-db24-4ccf-8d18-770f28b38db9" name="Changes" comment="" />
+      <created>1717845813922</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1726847475788</updated>
+      <updated>1717845813922</updated>
     </task>
     <servers />
   </component>

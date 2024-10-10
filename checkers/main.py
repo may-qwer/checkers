@@ -8,32 +8,36 @@ BLACK_QUEEN_CHECKER_CELL = Fore.BLACK + "0"
 WHITE_CHECKER_CELL = Fore.LIGHTWHITE_EX + "o"
 WHITE_QUEEN_CHECKER_CELL = Fore.LIGHTWHITE_EX + "0"
 POSSIBLE_CELL = Fore.LIGHTGREEN_EX + "o"
+POSSIBLE_QUEEN_CELL = Fore.LIGHTGREEN_EX + "0"
+EATING_CHECKER_CELL = Fore.RED + "o"
+EATING_QUEEN_CHECKER_CELL = Fore.RED + "0"
+
 
 BLACK_WIN = Fore.CYAN + 'Black WIN!!! Congratulations!!!' + Style.RESET_ALL
 WHITE_WIN = Fore.CYAN + 'White WIN!!! Congratulations!!!' + Style.RESET_ALL
 
 
-# BOARD_DICT = {
-#               18: EMPTY_CELL, 28: BLACK_CHECKER_CELL, 38: EMPTY_CELL, 48: BLACK_CHECKER_CELL, 58: EMPTY_CELL, 68: BLACK_CHECKER_CELL, 78: EMPTY_CELL, 88: BLACK_CHECKER_CELL,
-#               17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: BLACK_CHECKER_CELL, 47: EMPTY_CELL, 57: BLACK_CHECKER_CELL, 67: EMPTY_CELL, 77: BLACK_CHECKER_CELL, 87: EMPTY_CELL,
-#               16: EMPTY_CELL, 26: BLACK_CHECKER_CELL, 36: EMPTY_CELL, 46: BLACK_CHECKER_CELL, 56: EMPTY_CELL, 66: BLACK_CHECKER_CELL, 76: EMPTY_CELL, 86: BLACK_CHECKER_CELL,
-#               15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
-#               14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
-#               13: WHITE_CHECKER_CELL, 23: EMPTY_CELL, 33: WHITE_CHECKER_CELL, 43: EMPTY_CELL, 53: WHITE_CHECKER_CELL, 63: EMPTY_CELL, 73: WHITE_CHECKER_CELL, 83: EMPTY_CELL,
-#               12: EMPTY_CELL, 22: WHITE_CHECKER_CELL, 32: EMPTY_CELL, 42: WHITE_CHECKER_CELL, 52: EMPTY_CELL, 62: WHITE_CHECKER_CELL, 72: EMPTY_CELL, 82: WHITE_CHECKER_CELL,
-#               11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: WHITE_CHECKER_CELL, 41: EMPTY_CELL, 51: WHITE_CHECKER_CELL, 61: EMPTY_CELL, 71: WHITE_CHECKER_CELL, 81:  EMPTY_CELL
-# }
-
 BOARD_DICT = {
-              18: EMPTY_CELL, 28: EMPTY_CELL, 38: EMPTY_CELL, 48: EMPTY_CELL, 58: EMPTY_CELL, 68: EMPTY_CELL, 78: EMPTY_CELL, 88: EMPTY_CELL,
-              17: EMPTY_CELL, 27: EMPTY_CELL, 37: EMPTY_CELL, 47: EMPTY_CELL, 57: EMPTY_CELL, 67: EMPTY_CELL, 77: EMPTY_CELL, 87: EMPTY_CELL,
-              16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: EMPTY_CELL, 56: EMPTY_CELL, 66: EMPTY_CELL, 76: EMPTY_CELL, 86: EMPTY_CELL,
+              18: EMPTY_CELL, 28: BLACK_CHECKER_CELL, 38: EMPTY_CELL, 48: BLACK_CHECKER_CELL, 58: EMPTY_CELL, 68: BLACK_CHECKER_CELL, 78: EMPTY_CELL, 88: BLACK_CHECKER_CELL,
+              17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: BLACK_CHECKER_CELL, 47: EMPTY_CELL, 57: BLACK_CHECKER_CELL, 67: EMPTY_CELL, 77: BLACK_CHECKER_CELL, 87: EMPTY_CELL,
+              16: EMPTY_CELL, 26: BLACK_CHECKER_CELL, 36: EMPTY_CELL, 46: BLACK_CHECKER_CELL, 56: EMPTY_CELL, 66: BLACK_CHECKER_CELL, 76: EMPTY_CELL, 86: BLACK_CHECKER_CELL,
               15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
-              14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: BLACK_CHECKER_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
-              13: EMPTY_CELL, 23: EMPTY_CELL, 33: EMPTY_CELL, 43: EMPTY_CELL, 53: EMPTY_CELL, 63: EMPTY_CELL, 73: EMPTY_CELL, 83: EMPTY_CELL,
-              12: EMPTY_CELL, 22: BLACK_CHECKER_CELL, 32: EMPTY_CELL, 42: EMPTY_CELL, 52: EMPTY_CELL, 62: EMPTY_CELL, 72: EMPTY_CELL, 82: EMPTY_CELL,
-              11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: EMPTY_CELL, 41: EMPTY_CELL, 51: EMPTY_CELL, 61: EMPTY_CELL, 71: EMPTY_CELL, 81:  EMPTY_CELL
+              14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
+              13: WHITE_CHECKER_CELL, 23: EMPTY_CELL, 33: WHITE_CHECKER_CELL, 43: EMPTY_CELL, 53: WHITE_CHECKER_CELL, 63: EMPTY_CELL, 73: WHITE_CHECKER_CELL, 83: EMPTY_CELL,
+              12: EMPTY_CELL, 22: WHITE_CHECKER_CELL, 32: EMPTY_CELL, 42: WHITE_CHECKER_CELL, 52: EMPTY_CELL, 62: WHITE_CHECKER_CELL, 72: EMPTY_CELL, 82: WHITE_CHECKER_CELL,
+              11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: WHITE_CHECKER_CELL, 41: EMPTY_CELL, 51: WHITE_CHECKER_CELL, 61: EMPTY_CELL, 71: WHITE_CHECKER_CELL, 81:  EMPTY_CELL
 }
+
+# BOARD_DICT = {
+#               18: EMPTY_CELL, 28: EMPTY_CELL, 38: EMPTY_CELL, 48: EMPTY_CELL, 58: EMPTY_CELL, 68: EMPTY_CELL, 78: EMPTY_CELL, 88: EMPTY_CELL,
+#               17: EMPTY_CELL, 27: EMPTY_CELL, 37: EMPTY_CELL, 47: EMPTY_CELL, 57: EMPTY_CELL, 67: EMPTY_CELL, 77: EMPTY_CELL, 87: EMPTY_CELL,
+#               16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: EMPTY_CELL, 56: EMPTY_CELL, 66: EMPTY_CELL, 76: EMPTY_CELL, 86: EMPTY_CELL,
+#               15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
+#               14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: BLACK_CHECKER_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
+#               13: EMPTY_CELL, 23: EMPTY_CELL, 33: EMPTY_CELL, 43: EMPTY_CELL, 53: EMPTY_CELL, 63: EMPTY_CELL, 73: EMPTY_CELL, 83: EMPTY_CELL,
+#               12: EMPTY_CELL, 22: BLACK_CHECKER_CELL, 32: EMPTY_CELL, 42: EMPTY_CELL, 52: EMPTY_CELL, 62: EMPTY_CELL, 72: EMPTY_CELL, 82: EMPTY_CELL,
+#               11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: EMPTY_CELL, 41: EMPTY_CELL, 51: EMPTY_CELL, 61: EMPTY_CELL, 71: EMPTY_CELL, 81:  EMPTY_CELL
+# }
 
 
 BOARD_COLOR_LIST = [
@@ -67,9 +71,11 @@ class Board:
         print("   A  B  C  D  E  F  G  H ")
         print("   1  2  3  4  5  6  7  8 ")
 
-    def make_possible_staps(self, staps):
+    def make_possible_staps(self, staps, eating_checkers):
         for stap in staps:
             self.board[stap] = POSSIBLE_CELL
+        for checker in eating_checkers:
+            self.board[checker] = EATING_CHECKER_CELL
 
     def is_win(self):
         count = [0, 0] # count[0] - white, count[1] - black
@@ -90,7 +96,8 @@ class Checker:
         self.board = board
         self.out_checker = ''
         self.out_stap = ''
-        self.eat_checker = 0
+        self.eating_checkers = []
+        self.staps = []
 
     def enter_checker(self, in_str = "Enter the checker, which will go (like A3 or a3):"):
         self.get_checker(input(in_str))
@@ -140,85 +147,78 @@ class Checker:
             self.out_checker = ''
             self.enter_stap(staps)
 
-    def can_eat_ques(self, checker):
-        staps = [(checker - 11), (checker + 11), (checker - 9), (checker + 9)]
-        for stap in staps:
-            if stap in self.board and not self.board[stap] == BLACK_CHECKER_CELL :
-                if self.board[stap] == BLACK_CHECKER_CELL and self.board[2*stap - checker]:
-                    self.eat_checker = stap
-                    print(self.eat_checker)
-                    return True
-                else:
-                    return False
-
-    def eat(self, staps, eating_checker_and_stap):
-        staps.append(self.eat_checker)
-        eating_checker_and_stap += [self.eat_checker,  (self.eat_checker + (self.eat_checker - int(self.out_checker)))]
-        if self.can_eat_ques(int(self.eat_checker)):
-            self.eat(staps, eating_checker_and_stap)
-        return staps, eating_checker_and_stap
-
+    def eat(self):
+        # staps.append(self.eat_checker)
+        # eating_checker_and_stap += [self.eat_checker,  (self.eat_checker + (self.eat_checker - int(self.out_checker)))]
+        # if self.can_eat_ques(int(self.eat_checker)):
+        #     self.eat(staps, eating_checker_and_stap)
+        # return staps, eating_checker_and_stap
+        pass
 
 
 class BlackChecker(Checker):
     def get_possible_staps(self):
-        eating_checker_and_stap = []
+        self.can_eat(int(self.out_checker))
+        if len(self.eating_checkers) != 0:
+            return self.staps, self.eating_checkers
         staps = [int(self.out_checker) - 11, int(self.out_checker) + 9]
         for stap_index, stap in enumerate(staps):
-            if stap > 88:
-                staps[stap_index] = 0
-            elif stap < 11:
+            if not stap in self.board:
                 staps[stap_index] = 0
             elif self.board[stap] == BLACK_CHECKER_CELL:
                 staps[stap_index] = 0
-            elif self.board[stap] == WHITE_CHECKER_CELL and self.board[stap+(stap-int(self.out_checker))] == EMPTY_CELL:
-                staps.append(stap+(stap-int(self.out_checker)))
-                eating_checker_and_stap = [stap, (stap+(stap-int(self.out_checker)))]
-                staps[stap_index] = 0
         staps = [stap for stap in staps if stap != 0]
-        return staps, eating_checker_and_stap
+        self.staps += staps
+        return self.staps, self.eating_checkers
 
-    def make_stap(self, eating_checker_and_stap):
-        if len(eating_checker_and_stap) != 0 and int(self.out_stap) == int(eating_checker_and_stap[1]):
-            self.board[int(eating_checker_and_stap[0])] = EMPTY_CELL
+    def make_stap(self, stap):
+        if len(self.eating_checkers) != 0:
+            for eating_checker in self.eating_checkers:
+                self.board[eating_checker] = EMPTY_CELL
         self.board[int(self.out_checker)] = EMPTY_CELL
         self.board[int(self.out_stap)] = BLACK_CHECKER_CELL
+
+    def can_eat(self, checker):
+        staps = [(checker - 11), (checker + 11), (checker - 9), (checker + 9)]
+        print(Fore.BLACK + 'def' + Style.RESET_ALL)
+        for stap in staps:
+            if stap in self.board and self.board[stap] == WHITE_CHECKER_CELL and not stap in self.eating_checkers:
+                if self.board[stap] == WHITE_CHECKER_CELL and self.board[2*stap - checker]:
+                    self.eating_checkers += [stap]
+                    self.staps = [2*self.eating_checkers[-1] - checker]
+                    self.can_eat(self.staps[-1])
 
 
 class WhiteChecker(Checker):
     def get_possible_staps(self):
-        eating_checker_and_stap = []
-        #if self.can_eat_ques(int(self.out_checker)):
-        #   self.eat()
-        #else: this
+        self.can_eat(int(self.out_checker))
+        if len(self.eating_checkers) != 0:
+            return self.staps, self.eating_checkers
         staps = [int(self.out_checker) + 11, int(self.out_checker) - 9]
         for stap_index, stap in enumerate(staps):
             if not stap in self.board:
                 staps[stap_index] = 0
             elif self.board[stap] == WHITE_CHECKER_CELL:
                 staps[stap_index] = 0
-            elif self.can_eat_ques(int(self.out_checker)):
-                staps_temp, eating_checker_and_stap_temp = self.eat(staps, eating_checker_and_stap)
-                staps += staps_temp
-                eating_checker_and_stap += eating_checker_and_stap_temp
-                # staps.append((stap + (stap - checker)))
-                # eating_checker_and_stap += [stap, (stap + (stap - checker))]
-                # staps[stap_index] = 0
-                # s, ech = self.get_possible_staps(stap + (stap - checker))
-                # staps += s
-                # eating_checker_and_stap += ech
-        self.eat_checker = 0
         staps = [stap for stap in staps if stap != 0]
-        return staps, eating_checker_and_stap
+        self.staps += staps
+        return self.staps, self.eating_checkers
 
-    def make_stap(self, eating_checker_and_stap):
-        if len(eating_checker_and_stap) != 0 and int(self.out_stap) == int(eating_checker_and_stap[1]):
-            self.board[int(eating_checker_and_stap[0])] = EMPTY_CELL
+    def make_stap(self, stap):
+        if len(self.eating_checkers) != 0:
+            for eating_checker in self.eating_checkers:
+                self.board[eating_checker] = EMPTY_CELL
         self.board[int(self.out_checker)] = EMPTY_CELL
         self.board[int(self.out_stap)] = WHITE_CHECKER_CELL
 
-
-
+    def can_eat(self, checker):
+        staps = [(checker - 11), (checker + 11), (checker - 9), (checker + 9)]
+        for stap in staps:
+            if stap in self.board and self.board[stap] == BLACK_CHECKER_CELL and not stap in self.eating_checkers:
+                if self.board[stap] == BLACK_CHECKER_CELL and self.board[2*stap - checker]:
+                    self.eating_checkers += [stap]
+                    self.staps = [2*self.eating_checkers[-1] - checker]
+                    self.can_eat(self.staps[-1])
 
 
 class BlackQueenChecker(BlackChecker):
@@ -258,7 +258,7 @@ def main():
             print()
             check_possible_staps = True
             while check_possible_staps:
-                possible_staps, eating_checker_and_stap = checker.get_possible_staps()
+                possible_staps, eating_checkers = checker.get_possible_staps()
                 if len(possible_staps) == 0:
                     board.show()
                     if iteration % 2 == 0:
@@ -267,20 +267,22 @@ def main():
                         print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
                     checker.enter_checker('You chose checker, which can not go. Try again:')
                     chosen_checker = int(checker.out_checker)
-                    possible_staps, eating_checker_and_stap = checker.get_possible_staps()
+                    possible_staps, eating_checkers = checker.get_possible_staps()
                 else:
                     check_possible_staps = False
             possible_board = Board(copy.deepcopy(now_board))
-            possible_board.make_possible_staps(possible_staps)
+            possible_board.make_possible_staps(possible_staps, eating_checkers)
             possible_board.show()
             del possible_board
-            checker.enter_stap(possible_staps)
-            if checker.out_stap == '':
+            check_enter_stap = True
+            while check_enter_stap:
                 checker.enter_stap(possible_staps)
-            checker.make_stap(eating_checker_and_stap)
+                chosen_stap = checker.out_stap
+                if chosen_checker != '':
+                    check_enter_stap = False
+            checker.make_stap(chosen_stap)
             print(21*'-')
             iw = board.is_win()
-            print(iw)
             if iw != 0:
                 board.show()
                 print(iw)
