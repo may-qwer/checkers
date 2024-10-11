@@ -68,8 +68,8 @@ class Board:
             print(Style.RESET_ALL)
             checker_pos -= 81
             number -= 1
-        print("   A  B  C  D  E  F  G  H ")
-        print("   1  2  3  4  5  6  7  8 ")
+        print("   A  B  C  D  E  F  G  H")
+        print("   1  2  3  4  5  6  7  8")
 
     def make_possible_staps(self, staps, eating_checkers):
         for stap in staps:
@@ -99,36 +99,18 @@ class Checker:
         self.eating_checkers = []
         self.staps = []
 
-    def enter_checker(self, in_str = "Enter the checker, which will go (like A3 or a3):"):
-        self.get_checker(input(in_str))
+    def enter_checker(self):
+        self.get_checker(input("Enter the checker, which will go (like A3 or a3):"))
 
     def get_checker(self, str_checker):
-        try:
-            if len(str_checker) == 2 and not str_checker[0].isdigit() and str_checker[1].isdigit():
-                num_checker = str(ord(str_checker[0].lower()) - ord("a") + 1) + str_checker[1]
-                if int(num_checker[0]) >= 1 and int(num_checker[0]) <= 8 and int(num_checker[1]) >= 1 and int(num_checker[1]) <= 8 and self.board[int(num_checker)] != EMPTY_CELL:
-                    self.out_checker = num_checker
-                else:
-                    raise NotCorrectCell
-            else:
-                raise NotCorrectInput
-        except NotCorrectCell as ex:
-            del str_checker, num_checker
-            ex('You chose empty cell.')
-            self.out_checker = ''
-            self.enter_checker()
-        except NotCorrectInput as ex:
-            ex(str_checker)
-            del str_checker
-            self.out_checker = ''
-            self.enter_checker()
+        pass
 
     def enter_stap(self, staps):
         self.get_stap(input("Enter one of stap (like b4 or b4):"), staps)
 
     def get_stap(self, str_stap, staps):
         try:
-            if not str_stap[0].isdigit() and str_stap[1].isdigit() and len(str_stap) == 2:
+            if len(str_stap) == 2 and not str_stap[0].isdigit() and str_stap[1].isdigit():
                 num_stap = str(ord(str_stap[0].lower()) - ord("a") + 1) + str_stap[1]
                 if int(num_stap[0]) >= 1 and int(num_stap[0]) <= 8 and int(num_stap[1]) >= 1 and int(num_stap[1]) <= 8 and int(num_stap) in staps:
                     self.out_stap = num_stap
@@ -137,26 +119,28 @@ class Checker:
             else:
                 raise NotCorrectInput
         except NotCorrectCell as ex:
-            del str_stap, num_stap
             ex('You chose cell, you can not go into.')
-            self.out_checker = ''
-            self.enter_stap(staps)
         except NotCorrectInput as ex:
             ex(str_stap)
-            del str_stap, num_stap
-            self.out_checker = ''
-            self.enter_stap(staps)
-
-    def eat(self):
-        # staps.append(self.eat_checker)
-        # eating_checker_and_stap += [self.eat_checker,  (self.eat_checker + (self.eat_checker - int(self.out_checker)))]
-        # if self.can_eat_ques(int(self.eat_checker)):
-        #     self.eat(staps, eating_checker_and_stap)
-        # return staps, eating_checker_and_stap
-        pass
 
 
 class BlackChecker(Checker):
+    def get_checker(self, str_checker):
+        super().get_checker(str_checker)
+        try:
+            if len(str_checker) == 2 and not str_checker[0].isdigit() and str_checker[1].isdigit():
+                num_checker = str(ord(str_checker[0].lower()) - ord("a") + 1) + str_checker[1]
+                if int(num_checker) in self.board and self.board[int(num_checker)] == BLACK_CHECKER_CELL:
+                    self.out_checker = num_checker
+                else:
+                    raise NotCorrectCell
+            else:
+                raise NotCorrectInput
+        except NotCorrectCell as ex:
+            ex('You chose empty cell.')
+        except NotCorrectInput as ex:
+            ex(str_checker)
+
     def get_possible_staps(self):
         self.can_eat(int(self.out_checker))
         if len(self.eating_checkers) != 0:
@@ -180,16 +164,30 @@ class BlackChecker(Checker):
 
     def can_eat(self, checker):
         staps = [(checker - 11), (checker + 11), (checker - 9), (checker + 9)]
-        print(Fore.BLACK + 'def' + Style.RESET_ALL)
         for stap in staps:
-            if stap in self.board and self.board[stap] == WHITE_CHECKER_CELL and not stap in self.eating_checkers:
-                if self.board[stap] == WHITE_CHECKER_CELL and self.board[2*stap - checker]:
-                    self.eating_checkers += [stap]
-                    self.staps = [2*self.eating_checkers[-1] - checker]
-                    self.can_eat(self.staps[-1])
+            if stap in self.board and self.board[stap] == WHITE_CHECKER_CELL and (2*stap - checker) in self.board and self.board[2*stap - checker] == EMPTY_CELL and not stap in self.eating_checkers:
+                self.eating_checkers += [stap]
+                self.staps = [2*self.eating_checkers[-1] - checker]
+                self.can_eat(self.staps[-1])
 
 
 class WhiteChecker(Checker):
+    def get_checker(self, str_checker):
+        super().get_checker(str_checker)
+        try:
+            if len(str_checker) == 2 and not str_checker[0].isdigit() and str_checker[1].isdigit():
+                num_checker = str(ord(str_checker[0].lower()) - ord("a") + 1) + str_checker[1]
+                if int(num_checker) in self.board and self.board[int(num_checker)] == WHITE_CHECKER_CELL:
+                    self.out_checker = num_checker
+                else:
+                    raise NotCorrectCell
+            else:
+                raise NotCorrectInput
+        except NotCorrectCell as ex:
+            ex('You chose empty cell.')
+        except NotCorrectInput as ex:
+            ex(str_checker)
+
     def get_possible_staps(self):
         self.can_eat(int(self.out_checker))
         if len(self.eating_checkers) != 0:
@@ -214,11 +212,10 @@ class WhiteChecker(Checker):
     def can_eat(self, checker):
         staps = [(checker - 11), (checker + 11), (checker - 9), (checker + 9)]
         for stap in staps:
-            if stap in self.board and self.board[stap] == BLACK_CHECKER_CELL and not stap in self.eating_checkers:
-                if self.board[stap] == BLACK_CHECKER_CELL and self.board[2*stap - checker]:
-                    self.eating_checkers += [stap]
-                    self.staps = [2*self.eating_checkers[-1] - checker]
-                    self.can_eat(self.staps[-1])
+            if stap in self.board and self.board[stap] == BLACK_CHECKER_CELL and (2*stap - checker) in self.board and self.board[2*stap - checker] == EMPTY_CELL and not stap in self.eating_checkers:
+                self.eating_checkers += [stap]
+                self.staps = [2*self.eating_checkers[-1] - checker]
+                self.can_eat(self.staps[-1])
 
 
 class BlackQueenChecker(BlackChecker):
@@ -278,7 +275,7 @@ def main():
             while check_enter_stap:
                 checker.enter_stap(possible_staps)
                 chosen_stap = checker.out_stap
-                if chosen_checker != '':
+                if chosen_stap != '':
                     check_enter_stap = False
             checker.make_stap(chosen_stap)
             print(21*'-')
@@ -303,3 +300,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    #queen checker, eat if can eat, 
