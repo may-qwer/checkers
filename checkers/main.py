@@ -51,7 +51,7 @@ BOARD_COLOR_LIST = [
     [Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE, Back.LIGHTBLACK_EX, Back.WHITE],
 ]
 
-
+#----------------------------------------------------------------------------------------------------------------------
 
 class Board:
     def __init__(self, board):
@@ -99,8 +99,8 @@ class Checker:
         self.eating_checkers = []
         self.staps = []
 
-    def enter_checker(self):
-        self.get_checker(input("Enter the checker, which will go (like A3 or a3):"))
+    def enter_checker(self, inp = "Enter the checker, which will go (like A3 or a3):"):
+        self.get_checker(input(inp))
 
     def get_checker(self, str_checker):
         pass
@@ -168,7 +168,7 @@ class BlackChecker(Checker):
         for stap in staps:
             if stap in self.board and self.board[stap] == WHITE_CHECKER_CELL and (2*stap - checker) in self.board and self.board[2*stap - checker] == EMPTY_CELL and not stap in self.eating_checkers:
                 self.eating_checkers += [stap]
-                self.staps = [2*self.eating_checkers[-1] - checker]
+                self.staps += [2*self.eating_checkers[-1] - checker]
                 self.can_eat(self.staps[-1])
 
 
@@ -227,6 +227,66 @@ class BlackQueenChecker(BlackChecker):
 class WhiteQueenChecker(WhiteChecker):
     pass
 
+#----------------------------------------------------------------------------------------------------------------------
+
+def create_checker(iteration, now_board):
+    if iteration % 2 == 0:
+        checker = WhiteChecker(now_board)
+        print(Fore.GREEN, 'White go:', Style.RESET_ALL)
+    else:
+        checker = BlackChecker(now_board)
+        print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
+    return checker
+
+def check_can_eat(iteration, now_board, checker):
+    for cell in now_board:
+        if iteration % 2 == 0 and now_board[cell] == WHITE_CHECKER_CELL:
+            checker.can_eat(cell)
+            if checker.eating_checkers != 0: checker.out_checker = str(cell)
+        elif iteration % 2 != 0 and now_board[cell] == BLACK_CHECKER_CELL:
+            checker.can_eat(cell)
+    return checker.get_possible_staps()
+
+def enter_checker_cycle(checker):
+    check_checker = True
+    while check_checker:
+        checker.enter_checker()
+        chosen_checker = checker.out_checker
+        if chosen_checker != '':
+            check_checker = False
+
+def make_possible_staps_cycle(iteration, checker, board):
+    check_possible_staps = True
+    while check_possible_staps:
+        possible_staps, eating_checkers = checker.get_possible_staps()
+        if len(possible_staps) == 0:
+            board.show()
+            if iteration % 2 == 0:
+                print(Fore.GREEN, 'White go:', Style.RESET_ALL)
+            else:
+                print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
+            checker.enter_checker('You chose checker, which can not go. Try again:')
+            possible_staps, eating_checkers = checker.get_possible_staps()
+        else:
+            check_possible_staps = False
+    return possible_staps, eating_checkers
+
+def possible_board_show(now_board, possible_staps, eating_checkers):
+    possible_board = Board(copy.deepcopy(now_board))
+    possible_board.make_possible_staps(possible_staps, eating_checkers)
+    possible_board.show()
+    del possible_board
+
+def enter_stap_cycle(checker, possible_staps):
+    check_enter_stap = True
+    while check_enter_stap:
+        checker.enter_stap(possible_staps)
+        chosen_stap = checker.out_stap
+        if chosen_stap != '':
+            check_enter_stap = False
+    checker.make_stap(chosen_stap)
+
+#----------------------------------------------------------------------------------------------------------------------
 
 def main():
     init()
@@ -239,55 +299,24 @@ def main():
         while running:
             board = Board(now_board)
             board.show()
-            if iteration % 2 == 0:
-                checker = WhiteChecker(now_board)
-                print(Fore.GREEN, 'White go:', Style.RESET_ALL)
-            else:
-                checker = BlackChecker(now_board)
-                print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
-            for cell in now_board:
-                if iteration % 2 == 0 and now_board == WHITE_CHECKER_CELL:
-                    checker.can_eat(cell)
-                elif iteration % 2 != 0 and now_board[cell] == BLACK_CHECKER_CELL:
-                    checker.can_eat(cell)
-            print(checker.eating_checkers)
-            print(checker.staps)
-            check_checker = True
-            while check_checker:
-                checker.enter_checker()
-                chosen_checker = checker.out_checker
-                if chosen_checker != '':
-                    check_checker = False
-            chosen_checker = int(chosen_checker)
+
+            checker = create_checker(iteration, now_board)
+            possible_staps, eating_checkers = check_can_eat(iteration, now_board, checker)
+            if possible_staps != 0: possible_board_show(now_board, possible_staps, eating_checkers)
+
+            enter_checker_cycle(checker)
+
             print()
-            print(21*'-')
+            print(21 * '-')
             print()
-            check_possible_staps = True
-            while check_possible_staps:
-                possible_staps, eating_checkers = checker.get_possible_staps()
-                if len(possible_staps) == 0:
-                    board.show()
-                    if iteration % 2 == 0:
-                        print(Fore.GREEN, 'White go:', Style.RESET_ALL)
-                    else:
-                        print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
-                    checker.enter_checker('You chose checker, which can not go. Try again:')
-                    chosen_checker = int(checker.out_checker)
-                    possible_staps, eating_checkers = checker.get_possible_staps()
-                else:
-                    check_possible_staps = False
-            possible_board = Board(copy.deepcopy(now_board))
-            possible_board.make_possible_staps(possible_staps, eating_checkers)
-            possible_board.show()
-            del possible_board
-            check_enter_stap = True
-            while check_enter_stap:
-                checker.enter_stap(possible_staps)
-                chosen_stap = checker.out_stap
-                if chosen_stap != '':
-                    check_enter_stap = False
-            checker.make_stap(chosen_stap)
+            if possible_staps != 0: possible_staps, eating_checkers = make_possible_staps_cycle(iteration, checker, board)
+
+            possible_board_show(now_board, possible_staps, eating_checkers)
+
+            enter_stap_cycle(checker, possible_staps)
+
             print(21*'-')
+
             iw = board.is_win()
             if iw != 0:
                 board.show()
@@ -303,6 +332,7 @@ def main():
                     continue
                 else:
                     one_more = False
+                    print(Fore.LIGHTCYAN_EX + 'Thanks for game!!! Good luck!!!' + Style.RESET_ALL)
                     break
             iteration += 1
             del checker
