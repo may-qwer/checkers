@@ -17,27 +17,27 @@ BLACK_WIN = Fore.CYAN + 'Black WIN!!! Congratulations!!!' + Style.RESET_ALL
 WHITE_WIN = Fore.CYAN + 'White WIN!!! Congratulations!!!' + Style.RESET_ALL
 
 
-# BOARD_DICT = {
-#               18: EMPTY_CELL, 28: BLACK_CHECKER_CELL, 38: EMPTY_CELL, 48: BLACK_CHECKER_CELL, 58: EMPTY_CELL, 68: BLACK_CHECKER_CELL, 78: EMPTY_CELL, 88: BLACK_CHECKER_CELL,
-#               17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: BLACK_CHECKER_CELL, 47: EMPTY_CELL, 57: BLACK_CHECKER_CELL, 67: EMPTY_CELL, 77: BLACK_CHECKER_CELL, 87: EMPTY_CELL,
-#               16: EMPTY_CELL, 26: BLACK_CHECKER_CELL, 36: EMPTY_CELL, 46: BLACK_CHECKER_CELL, 56: EMPTY_CELL, 66: BLACK_CHECKER_CELL, 76: EMPTY_CELL, 86: BLACK_CHECKER_CELL,
-#               15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
-#               14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
-#               13: WHITE_CHECKER_CELL, 23: EMPTY_CELL, 33: WHITE_CHECKER_CELL, 43: EMPTY_CELL, 53: WHITE_CHECKER_CELL, 63: EMPTY_CELL, 73: WHITE_CHECKER_CELL, 83: EMPTY_CELL,
-#               12: EMPTY_CELL, 22: WHITE_CHECKER_CELL, 32: EMPTY_CELL, 42: WHITE_CHECKER_CELL, 52: EMPTY_CELL, 62: WHITE_CHECKER_CELL, 72: EMPTY_CELL, 82: WHITE_CHECKER_CELL,
-#               11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: WHITE_CHECKER_CELL, 41: EMPTY_CELL, 51: WHITE_CHECKER_CELL, 61: EMPTY_CELL, 71: WHITE_CHECKER_CELL, 81:  EMPTY_CELL
-# }
-
 BOARD_DICT = {
               18: EMPTY_CELL, 28: BLACK_CHECKER_CELL, 38: EMPTY_CELL, 48: BLACK_CHECKER_CELL, 58: EMPTY_CELL, 68: BLACK_CHECKER_CELL, 78: EMPTY_CELL, 88: BLACK_CHECKER_CELL,
               17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: BLACK_CHECKER_CELL, 47: EMPTY_CELL, 57: BLACK_CHECKER_CELL, 67: EMPTY_CELL, 77: BLACK_CHECKER_CELL, 87: EMPTY_CELL,
-              16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: EMPTY_CELL, 56: EMPTY_CELL, 66: BLACK_CHECKER_CELL, 76: EMPTY_CELL, 86: EMPTY_CELL,
-              15: EMPTY_CELL, 25: EMPTY_CELL, 35: BLACK_CHECKER_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: BLACK_CHECKER_CELL, 85: EMPTY_CELL,
-              14: EMPTY_CELL, 24: WHITE_CHECKER_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: WHITE_CHECKER_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
-              13: EMPTY_CELL, 23: EMPTY_CELL, 33: WHITE_CHECKER_CELL, 43: EMPTY_CELL, 53: WHITE_CHECKER_CELL, 63: EMPTY_CELL, 73: EMPTY_CELL, 83: EMPTY_CELL,
+              16: EMPTY_CELL, 26: BLACK_CHECKER_CELL, 36: EMPTY_CELL, 46: BLACK_CHECKER_CELL, 56: EMPTY_CELL, 66: BLACK_CHECKER_CELL, 76: EMPTY_CELL, 86: BLACK_CHECKER_CELL,
+              15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
+              14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
+              13: WHITE_CHECKER_CELL, 23: EMPTY_CELL, 33: WHITE_CHECKER_CELL, 43: EMPTY_CELL, 53: WHITE_CHECKER_CELL, 63: EMPTY_CELL, 73: WHITE_CHECKER_CELL, 83: EMPTY_CELL,
               12: EMPTY_CELL, 22: WHITE_CHECKER_CELL, 32: EMPTY_CELL, 42: WHITE_CHECKER_CELL, 52: EMPTY_CELL, 62: WHITE_CHECKER_CELL, 72: EMPTY_CELL, 82: WHITE_CHECKER_CELL,
               11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: WHITE_CHECKER_CELL, 41: EMPTY_CELL, 51: WHITE_CHECKER_CELL, 61: EMPTY_CELL, 71: WHITE_CHECKER_CELL, 81:  EMPTY_CELL
 }
+
+# BOARD_DICT = {
+#               18: EMPTY_CELL, 28: BLACK_CHECKER_CELL, 38: EMPTY_CELL, 48: EMPTY_CELL, 58: EMPTY_CELL, 68: EMPTY_CELL, 78: EMPTY_CELL, 88: EMPTY_CELL,
+#               17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: EMPTY_CELL, 47: EMPTY_CELL, 57: WHITE_CHECKER_CELL, 67: EMPTY_CELL, 77: EMPTY_CELL, 87: EMPTY_CELL,
+#               16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: EMPTY_CELL, 56: EMPTY_CELL, 66: EMPTY_CELL, 76: EMPTY_CELL, 86: EMPTY_CELL,
+#               15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
+#               14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
+#               13: EMPTY_CELL, 23: EMPTY_CELL, 33: EMPTY_CELL, 43: EMPTY_CELL, 53: EMPTY_CELL, 63: EMPTY_CELL, 73: EMPTY_CELL, 83: EMPTY_CELL,
+#               12: EMPTY_CELL, 22: EMPTY_CELL, 32: EMPTY_CELL, 42: EMPTY_CELL, 52: EMPTY_CELL, 62: EMPTY_CELL, 72: EMPTY_CELL, 82: EMPTY_CELL,
+#               11: EMPTY_CELL, 21: EMPTY_CELL, 31: EMPTY_CELL, 41: EMPTY_CELL, 51: EMPTY_CELL, 61: EMPTY_CELL, 71: EMPTY_CELL, 81:  EMPTY_CELL
+# }
 
 
 BOARD_COLOR_LIST = [
@@ -99,8 +99,9 @@ class Checker:
         self.eating_checkers = []
         self.staps = []
 
-    def enter_checker(self, inp = "Enter the checker, which will go (like A3 or a3):"):
-        self.get_checker(input(inp))
+    def enter_checker(self, inp_checker, inp = "Enter the checker, which will go (like A3 or a3):"):
+        print(inp + '\n')
+        self.get_checker(inp_checker)
 
     def get_checker(self, str_checker):
         pass
@@ -238,19 +239,19 @@ def create_checker(iteration, now_board):
         print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
     return checker
 
-def check_can_eat(iteration, now_board, checker):
-    for cell in now_board:
-        if iteration % 2 == 0 and now_board[cell] == WHITE_CHECKER_CELL:
-            checker.can_eat(cell)
-            if checker.eating_checkers != 0: checker.out_checker = str(cell)
-        elif iteration % 2 != 0 and now_board[cell] == BLACK_CHECKER_CELL:
-            checker.can_eat(cell)
-    return checker.get_possible_staps()
+# def check_can_eat(iteration, now_board, checker):
+#     for cell in now_board:
+#         if iteration % 2 == 0 and now_board[cell] == WHITE_CHECKER_CELL:
+#             checker.can_eat(cell)
+#             if checker.eating_checkers != 0: checker.out_checker = str(cell)
+#         elif iteration % 2 != 0 and now_board[cell] == BLACK_CHECKER_CELL:
+#             checker.can_eat(cell)
+#     return checker.get_possible_staps()
 
-def enter_checker_cycle(checker):
+def enter_checker_cycle(checker, inp_checker):
     check_checker = True
     while check_checker:
-        checker.enter_checker()
+        checker.enter_checker(inp_checker = inp_checker)
         chosen_checker = checker.out_checker
         if chosen_checker != '':
             check_checker = False
@@ -265,7 +266,8 @@ def make_possible_staps_cycle(iteration, checker, board):
                 print(Fore.GREEN, 'White go:', Style.RESET_ALL)
             else:
                 print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
-            checker.enter_checker('You chose checker, which can not go. Try again:')
+            input_checker = input()
+            checker.enter_checker(input_checker = input_checker, inp = 'You chose checker, which can not go. Try again:')
             possible_staps, eating_checkers = checker.get_possible_staps()
         else:
             check_possible_staps = False
@@ -299,17 +301,17 @@ def main():
         while running:
             board = Board(now_board)
             board.show()
+            inp_checker = input("Enter the checker, which will go (like A3 or a3):")
 
             checker = create_checker(iteration, now_board)
-            possible_staps, eating_checkers = check_can_eat(iteration, now_board, checker)
-            if possible_staps != 0: possible_board_show(now_board, possible_staps, eating_checkers)
-
-            enter_checker_cycle(checker)
+            # possible_staps, eating_checkers = check_can_eat(iteration, now_board, checker)
+            # if possible_staps != 0: possible_board_show(now_board, possible_staps, eating_checkers)
+            enter_checker_cycle(checker, inp_checker)
 
             print()
             print(21 * '-')
             print()
-            if possible_staps != 0: possible_staps, eating_checkers = make_possible_staps_cycle(iteration, checker, board)
+            possible_staps, eating_checkers = make_possible_staps_cycle(iteration, checker, board)
 
             possible_board_show(now_board, possible_staps, eating_checkers)
 

@@ -1,5 +1,18 @@
-d = {1: 'one', 2: 'two', 3: 'one', 4: "two", 5: 'one', 6: 'two'}
+class T:
+    def __init__(self, q):
+        self.q = q
 
-for i in d:
-    if d[i] == 'two':
-        print(i)
+    def t(self):
+        print('T', type(self))
+
+
+class TT(T):
+    def t(self):
+        print('TT', type(self))
+
+
+if __name__ == '__main__':
+    t = T(4)
+    t = TT(5)
+    print(t.q)
+
