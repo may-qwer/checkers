@@ -1,6 +1,4 @@
-from colorama import Back, Style, Fore, init
-
-ERR_NOT_EMPTY = 'You chose empty cell.'
+from colorama import Style, Fore
 
 
 class NotCorrectInput(Exception):
