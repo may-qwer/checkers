@@ -57,6 +57,9 @@ class Board:
         print("   A  B  C  D  E  F  G  H")
         print("   1  2  3  4  5  6  7  8")
 
+    def return_board(self):
+        return self.board
+
     def make_possible_staps(self, staps, eating_checkers):
         for stap in staps:
             self.board[stap] = POSSIBLE_CELL
@@ -77,8 +80,13 @@ class Board:
         else:
             return 0
 
+    def make_stap(self):
+        pass
+
 class Checker:
-    pass
+    def __init(self, int_checker, board):
+        self.int_checker = int_checker
+        self.board = board
 
 
 class WhiteChecker(Checker):
@@ -98,15 +106,63 @@ class BlackQueenChecker(BlackChecker):
 
 # ----------------------------------------------------------------------------------------------------------------------
 
+def check_inp_checker(inp_str_checker, board):
+    type_of_now_checker = [[WHITE_CHECKER_CELL, WHITE_QUEEN_CHECKER_CELL], [BLACK_CHECKER_CELL, BLACK_QUEEN_CHECKER_CELL]]
+    try:
+        if len(inp_str_checker) == 2 and not inp_str_checker[0].isdigit() and inp_str_checker[1].isdigit():
+            out_int_checker = int(str(ord(inp_str_checker[0].lower()) - ord("a") + 1) + inp_str_checker[1])
+            if out_int_checker in board and board[out_int_checker] != EMPTY_CELL:
+                return out_int_checker
+            else:
+                raise NotCorrectCell
+        else:
+            raise NotCorrectInput
+    except NotCorrectCell as ex:
+        ex(inp=out_int_checker, err='You chose empty cell.')
+        new_inp_str_checker = input("Enter the checker, which will go (like A3 or a3):")
+        check_inp_checker(new_inp_str_checker, board)
+    except NotCorrectInput as ex:
+        ex(inp_str_checker)
+        new_inp_str_checker = input("Enter the checker, which will go (like A3 or a3):")
+        check_inp_checker(new_inp_str_checker, board)
+
+def create_checker(out_checker, board, iteration):
+    try:
+        if iteration % 2 == 0:
+            if board.return_board()[out_checker] == WHITE_CHECKER_CELL:
+                checker = WhiteChecker()
+            elif board.return_board()[out_checker] == WHITE_QUEEN_CHECKER_CELL:
+                checker = WhiteQueenChecker()
+            else:
+                raise NotCorrectCell
+        elif iteration % 2 != 0:
+            if board.return_board()[out_checker] == BLACK_CHECKER_CELL:
+                checker = BlackChecker()
+            elif board.return_board()[out_checker] == BLACK_QUEEN_CHECKER_CELL:
+                checker = BlackQueenChecker()
+            else:
+                raise NotCorrectCell
+    except NotCorrectCell as ex:
+        ex(inp=out_checker, err='You chose checker other color.')
+        new_inp_str_checker = input("Enter the checker, which will go (like A3 or a3):")
+        check_inp_checker(new_inp_str_checker, board)
+
+# ----------------------------------------------------------------------------------------------------------------------
+
 def main():
     init()
     one_more = True
     while one_more:
         running = True
-        now_board = copy.deepcopy(BOARD_DICT)
+        board = copy.deepcopy(BOARD_DICT)
         iteration = 2  #itaration%2 == 0 go white, iteration%2 != 0 - go black
         while running:
-            pass
+            now_board = Board(board)
+            now_board.show()
+            inp_checker = input("Enter the checker, which will go (like A3 or a3):")
+            out_checker = check_inp_checker(inp_checker, now_board.return_board())
+
+
         #defs: eat_staps_if_can_eat(try do it), enter_and_check_checker, create_checker, get_possible_staps, enter_and_check_stap, check_win,
 
 if __name__ == '__main__':
