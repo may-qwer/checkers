@@ -1,6 +1,6 @@
 from colorama import Style, Fore
 
-LIST_IN_BOARD_QUES = (18, 28, 38, 48, 58, 68, 78, 88,
+TUPLE_IN_BOARD_QUES = (18, 28, 38, 48, 58, 68, 78, 88,
                       17, 27, 37, 47, 57, 67, 77, 87,
                       16, 26, 36, 46, 56, 66, 76, 86,
                       15, 25, 35, 45, 55, 65, 75, 85,
@@ -18,7 +18,7 @@ class NotCorrectInput(Exception):
 
 class NotCorrectCell(Exception):
     def __call__(self, inp, err = 'You chose empty cell.'): # err == EMPTY, OTHER_COLOR
-        if not inp in LIST_IN_BOARD_QUES:
+        if not inp in TUPLE_IN_BOARD_QUES:
             err = 'You chose cell, that is outside the board.'
         print(Fore.RED + "You enter not correct cell. " + err + " Try again." + Style.RESET_ALL)
 
