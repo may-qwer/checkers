@@ -22,3 +22,7 @@ class NotCorrectCell(Exception):
             err = 'You chose cell, that is outside the board.'
         print(Fore.RED + "You enter not correct cell. " + err + " Try again." + Style.RESET_ALL)
 
+class NotCorrectInputIsWin(Exception):
+    def __call__(self, inp):
+        print(Fore.LIGHTRED_EX + 'Your input is not correct. Your input is ' + inp + 'Enter "Y" or "y", if you want to start over, or enter "N" or "n", if you want to finish playing.' + Style.RESET_ALL)
+
