@@ -207,14 +207,28 @@ class BlackChecker(Checker):
 class QueenChecker(Checker):
     def __init__(self, int_checker,  board):
         super().__init__(int_checker, board)
+        self.staps = []
+
+    def make_stap_list(self, checker):
+        for term in TERMS:
+            stap = checker + term
+            one_way_staps = []
+            while stap in BORDERS:
+                one_way_staps.append(stap)
+                stap += term
+            self.staps.append(one_way_staps)
 
     def check_can_eat(self, checker):
-        for stap in staps:
-            if stap in self.board and self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and (2 * stap - checker) in self.board and self.board[2 * stap - checker] == EMPTY_CELL and not stap in self.eating_checkers_list:
-                self.eating_checkers_list += [stap]
-                self.staps_list += [2 * self.eating_checkers_list[-1] - checker]
-                if len(self.eating_checkers_list) != 0:
-                    self.check_can_eat(self.staps_list[-1])
+        self.make_stap_list(checker)
+        for one_way_staps in self.staps:
+            for stap in one_way_staps:
+                if stap in self.board and self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and (2 * stap - checker) in self.board and self.board[2 * stap - checker] == EMPTY_CELL and not stap in self.eating_checkers_list:
+                    self.eating_checkers_list += [stap]
+                    next_checker_after_eating = one_way_staps[one_way_staps.index(stap)+1]
+                    self.staps_list = one_way_staps
+                    self.staps_list.remove(stap)
+                    if len(self.eating_checkers_list) != 0:
+                        self.check_can_eat(next_checker_after_eating)
 
 
 class WhiteQueenChecker(QueenChecker):
