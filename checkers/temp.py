@@ -1,2 +1,3 @@
-k = [11, 22, 33, 44, 55]
-print(k[3:])
+k_dict = {1: [], 2: []}
+k_dict[1].append('one')
+print(k_dict)
