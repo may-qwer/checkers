@@ -122,20 +122,32 @@ class Checker:
         self.int_checker = int_checker
         self.board = board
         self.return_eating_checkers_and_staps_dict = {} #{stap: [eating_checker]}
+
+        self.temp_eating_checkers = []
+        self.temp_stap = 0
+
         self.return_staps_list = []
         self.return_eating_checkers_list = []
+
         self.POSSIBLE_EATING_CHECKERS_LIST = []
         self.QUEEN_CONDITION = []
 
     def check_can_eat(self, checker):
         staps = [(checker + TERMS[0]), (checker + TERMS[1]), (checker + TERMS[2]), (checker + TERMS[3])]
+        print(staps)
         for stap in staps:
             if stap in self.board and self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and (2 * stap - checker) in self.board and self.board[2 * stap - checker] == EMPTY_CELL and not stap in self.return_eating_checkers_list:
-                self.return_eating_checkers_and_staps_dict[checker] = [stap]
-                self.check_can_eat(2*stap-checker)
-                self.return_eating_checkers_list += [stap]
-                self.return_staps_list += [2 * self.return_eating_checkers_list[-1] - checker]
-                self.check_can_eat(self.return_staps_list[-1])
+                self.temp_eating_checkers += [stap]
+                self.temp_stap = 2*stap - checker
+                self.check_can_eat(self.temp_stap)
+            self.return_eating_checkers_and_staps_dict[self.temp_stap] = self.temp_eating_checkers
+            self.temp_stap = 0
+            self.temp_eating_checkers = []
+
+
+                # self.return_eating_checkers_list += [stap]
+                # self.return_staps_list += [2 * self.return_eating_checkers_list[-1] - checker]
+                # self.check_can_eat(self.return_staps_list[-1])
 
     def get_possible_staps(self):
         pass
@@ -413,7 +425,6 @@ class Game:
                 checker = self.create_checker(out_int_checker, now_board.return_board(), iteration)
                 possible_staps_list, eating_checkers_list = self.check_possible_staps(checker, now_board.return_board(), iteration)
                 print(checker.return_eating_checkers_and_staps_dict)
-                print(checker.return_eating_checkers_list, checker.return_staps_list)
 
                 possible_board = Board(copy.deepcopy(now_board.return_board()))
                 possible_board.make_possible_staps(possible_staps_list, eating_checkers_list)

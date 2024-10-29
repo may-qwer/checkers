@@ -1,3 +1,4 @@
-k_dict = {1: [], 2: []}
-k_dict[1].append('one')
-print(k_dict)
+k = {1: 'one', 2: 'two'}
+k[3] = 'tree'
+print(k)
+print(k[-1])
