@@ -95,11 +95,15 @@ class Board:
     def return_board(self):
         return self.board
 
-    def make_possible_staps(self, staps, eating_checkers):
-        for stap in staps:
+    def make_possible_staps(self, stap_and_eating_checker_dict):
+        for stap, eating_checker in stap_and_eating_checker_dict.items():
             self.board[stap] = POSSIBLE_CELL
-        for checker in eating_checkers:
-            self.board[checker] = EATING_CHECKER_CELL
+            if eating_checker != 0:
+                self.board[eating_checker] = EATING_CHECKER_CELL
+        # for stap in staps:
+        #     self.board[stap] = POSSIBLE_CELL
+        # for checker in eating_checkers:
+        #     self.board[checker] = EATING_CHECKER_CELL
 
     def is_win(self):
         count = [0, 0] # count[0] - white, count[1] - black
@@ -118,8 +122,33 @@ class Board:
 #----------------------------------------------------------------------------------------------------------------------
 
 class Checker:
-    def __init__(self):
-        pass
+    def __init__(self, int_checker, board):
+        self.int_checker = int_checker
+        self.board = board
+        self.return_staps_and_checkers_dict = {}
+        self.POSSIBLE_EATING_CHECKERS_LIST = []
+        self.QUEEN_CONDITION = []
+
+    def check_can_eat(self, checker):
+        staps = [(checker + TERMS[0]), (checker + TERMS[1]), (checker + TERMS[2]), (checker + TERMS[3])]
+        for stap in staps:
+            if stap in self.board and self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and (2 * stap - checker) in self.board and self.board[2 * stap - checker] == EMPTY_CELL:
+                self.return_staps_and_checkers_dict[2*stap - checker] = stap # {stap: eating_checker}
+
+    def get_possible_staps(self):
+        self.check_can_eat(self.int_checker)
+
+    def make_stap(self, stap):
+        if len(self.return_staps_and_checkers_dict) != 0:
+            self.board[self.return_staps_and_checkers_dict[stap]] = EMPTY_CELL
+        self.board[self.int_checker] = EMPTY_CELL
+        self.return_staps_and_checkers_dict = {}
+
+    def check_can_be_queen(self, stap):
+        if stap in self.QUEEN_CONDITION:
+            return stap
+        return 0
+
 
 # class Checker:
 #     def __init__(self, int_checker, board):
@@ -156,27 +185,23 @@ class Checker:
 #             return stap
 #         return 0
 
-
-
 class WhiteChecker(Checker):
     def __init__(self, int_checker, board):
-        super().__init__(int_checker, board)
-        self.POSSIBLE_EATING_CHECKERS_LIST = [BLACK_CHECKER_CELL, BLACK_QUEEN_CHECKER_CELL]
-        self.QUEEN_CONDITION = BORDERS[:8]
+            super().__init__(int_checker, board)
+            self.POSSIBLE_EATING_CHECKERS_LIST = [BLACK_CHECKER_CELL, BLACK_QUEEN_CHECKER_CELL]
+            self.QUEEN_CONDITION = BORDERS[:8]
 
     def get_possible_staps(self):
         super().get_possible_staps()
-        self.check_can_eat(self.int_checker)
-        if len(self.return_eating_checkers_list) != 0:
-            self.return_staps_list = [self.return_staps_list[-1]]
-            return  [self.return_staps_list[-1]], self.return_eating_checkers_list
+        if len(self.return_staps_and_checkers_dict) != 0:
+            return self.return_staps_and_checkers_dict
         staps = [self.int_checker + TERMS[0], self.int_checker + TERMS[3]]
         for stap_index, stap in enumerate(staps):
             if not stap in self.board or self.board[stap] == WHITE_CHECKER_CELL or self.board[stap] == WHITE_QUEEN_CHECKER_CELL:
                 staps[stap_index] = 0
         staps = [stap for stap in staps if stap != 0]
-        self.return_staps_list += staps
-        return self.return_staps_list, self.return_eating_checkers_list
+        self.return_staps_and_checkers_dict = {k:0 for k in staps}
+        return self.return_staps_and_checkers_dict
 
     def make_stap(self, stap):
         super().make_stap(stap)
@@ -186,7 +211,33 @@ class WhiteChecker(Checker):
         else:
             self.board[stap] = WHITE_CHECKER_CELL
 
-
+# class WhiteChecker(Checker):
+#     def __init__(self, int_checker, board):
+#         super().__init__(int_checker, board)
+#         self.POSSIBLE_EATING_CHECKERS_LIST = [BLACK_CHECKER_CELL, BLACK_QUEEN_CHECKER_CELL]
+#         self.QUEEN_CONDITION = BORDERS[:8]
+#
+#     def get_possible_staps(self):
+#         super().get_possible_staps()
+#         self.check_can_eat(self.int_checker)
+#         if len(self.return_eating_checkers_list) != 0:
+#             self.return_staps_list = [self.return_staps_list[-1]]
+#             return  [self.return_staps_list[-1]], self.return_eating_checkers_list
+#         staps = [self.int_checker + TERMS[0], self.int_checker + TERMS[3]]
+#         for stap_index, stap in enumerate(staps):
+#             if not stap in self.board or self.board[stap] == WHITE_CHECKER_CELL or self.board[stap] == WHITE_QUEEN_CHECKER_CELL:
+#                 staps[stap_index] = 0
+#         staps = [stap for stap in staps if stap != 0]
+#         self.return_staps_list += staps
+#         return self.return_staps_list, self.return_eating_checkers_list
+#
+#     def make_stap(self, stap):
+#         super().make_stap(stap)
+#         ques_queen = self.check_can_be_queen(stap)
+#         if ques_queen != 0:
+#             self.board[stap] = WHITE_QUEEN_CHECKER_CELL
+#         else:
+#             self.board[stap] = WHITE_CHECKER_CELL
 
 class BlackChecker(Checker):
     def __init__(self, int_checker, board):
@@ -196,17 +247,15 @@ class BlackChecker(Checker):
 
     def get_possible_staps(self):
         super().get_possible_staps()
-        self.check_can_eat(self.int_checker)
-        if len(self.return_eating_checkers_list) != 0:
-            self.return_staps_list = [self.return_staps_list[-1]]
-            return  [self.return_staps_list[-1]], self.return_eating_checkers_list
+        if len(self.return_staps_and_checkers_dict) != 0:
+            return self.return_staps_and_checkers_dict
         staps = [self.int_checker + TERMS[1], self.int_checker + TERMS[2]]
         for stap_index, stap in enumerate(staps):
             if not stap in self.board or self.board[stap] == BLACK_CHECKER_CELL or self.board[stap] == BLACK_QUEEN_CHECKER_CELL:
                 staps[stap_index] = 0
         staps = [stap for stap in staps if stap != 0]
-        self.return_staps_list += staps
-        return self.return_staps_list, self.return_eating_checkers_list
+        self.return_staps_and_checkers_dict = {k: 0 for k in staps}
+        return self.return_staps_and_checkers_dict
 
     def make_stap(self, stap):
         super().make_stap(stap)
@@ -216,83 +265,127 @@ class BlackChecker(Checker):
         else:
             self.board[stap] = BLACK_CHECKER_CELL
 
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+# class BlackChecker(Checker):
+#     def __init__(self, int_checker, board):
+#         super().__init__(int_checker, board)
+#         self.POSSIBLE_EATING_CHECKERS_LIST = [WHITE_CHECKER_CELL, WHITE_QUEEN_CHECKER_CELL]
+#         self.QUEEN_CONDITION = BORDERS[-8:]
+#
+#     def get_possible_staps(self):
+#         super().get_possible_staps()
+#         self.check_can_eat(self.int_checker)
+#         if len(self.return_eating_checkers_list) != 0:
+#             self.return_staps_list = [self.return_staps_list[-1]]
+#             return  [self.return_staps_list[-1]], self.return_eating_checkers_list
+#         staps = [self.int_checker + TERMS[1], self.int_checker + TERMS[2]]
+#         for stap_index, stap in enumerate(staps):
+#             if not stap in self.board or self.board[stap] == BLACK_CHECKER_CELL or self.board[stap] == BLACK_QUEEN_CHECKER_CELL:
+#                 staps[stap_index] = 0
+#         staps = [stap for stap in staps if stap != 0]
+#         self.return_staps_list += staps
+#         return self.return_staps_list, self.return_eating_checkers_list
+#
+#     def make_stap(self, stap):
+#         super().make_stap(stap)
+#         ques_queen = self.check_can_be_queen(stap)
+#         if ques_queen != 0:
+#             self.board[stap] = BLACK_QUEEN_CHECKER_CELL
+#         else:
+#             self.board[stap] = BLACK_CHECKER_CELL
+
 #----------------------------------------------------------------------------------------------------------------------
 
 class QueenChecker(Checker):
-    def __init__(self, int_checker,  board):
-        super().__init__(int_checker, board)
-        self.staps = []
+    pass
 
-    def make_stap_list(self, checker):
-        for term in TERMS:
-            stap = checker + term
-            one_way_staps = []
-            while stap in BORDERS:
-                one_way_staps.append(stap)
-                stap += term
-            self.staps.append(one_way_staps)
-
-    def check_possible_staps_in_stap_list(self):
-        pass
-
-    def check_can_eat(self, checker):
-        self.make_stap_list(checker)
-        for one_way_staps in self.staps:
-            for stap in one_way_staps:
-                if stap in self.board and self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and (2 * stap - checker) in self.board and self.board[2 * stap - checker] == EMPTY_CELL and not stap in self.return_eating_checkers_list:
-                    self.return_eating_checkers_list += [stap]
-                    print(one_way_staps[(one_way_staps.index(stap)+1):])
-                    self.return_staps_list += one_way_staps[(one_way_staps.index(stap)):]
-                    if len(self.return_eating_checkers_list) != 0:
-                        for next_stap in one_way_staps:
-                            self.check_can_eat(next_stap, 0)
 
 class WhiteQueenChecker(QueenChecker):
-    def __init__(self, int_checker, board):
-        super().__init__(int_checker, board)
-        self.POSSIBLE_EATING_CHECKERS_LIST = [BLACK_CHECKER_CELL, BLACK_QUEEN_CHECKER_CELL]
-
-    def get_possible_staps(self):
-        super().get_possible_staps()
-        self.check_can_eat(self.int_checker)
-        if len(self.return_eating_checkers_list) != 0:
-            self.return_staps_list = [self.return_staps_list[-1]]
-            return  self.return_staps_list, self.return_eating_checkers_list
-        # self.make_stap_list(self.int_checker)
-        for one_way_staps in self.staps:
-            for stap in one_way_staps:
-                if self.board[stap] == WHITE_CHECKER_CELL or self.board[stap] == WHITE_QUEEN_CHECKER_CELL:
-                    break
-                self.return_staps_list.append(stap)
-
-        return self.return_staps_list, self.return_eating_checkers_list
-
-    def make_stap(self, stap):
-        super().make_stap(stap)
-        self.board[stap] = WHITE_QUEEN_CHECKER_CELL
-
+    pass
 
 class BlackQueenChecker(QueenChecker):
-    def __init__(self, int_checker, board):
-        super().__init__(int_checker, board)
-        self.POSSIBLE_EATING_CHECKERS_LIST = [WHITE_CHECKER_CELL, WHITE_QUEEN_CHECKER_CELL]
+    pass
 
-    def get_possible_staps(self):
-        super().get_possible_staps()
-        self.check_can_eat(self.int_checker)
-        if len(self.return_eating_checkers_list) != 0:
-            self.return_staps_list = [self.return_staps_list[-1]]
-            return  self.return_staps_list, self.return_eating_checkers_list
-        for one_way_staps in self.staps:
-            for stap in one_way_staps:
-                if self.board[stap] == BLACK_CHECKER_CELL or self.board[stap] == BLACK_QUEEN_CHECKER_CELL:
-                    self.return_staps_list += one_way_staps[one_way_staps.index(stap)-1]
-                    break
-        return self.return_staps_list, self.return_eating_checkers_list
 
-    def make_stap(self, stap):
-        super().make_stap(stap)
-        self.board[stap] = BLACK_QUEEN_CHECKER_CELL
+# ----------------------------------------------------------------------------------------------------------------------
+
+# class QueenChecker(Checker):
+#     def __init__(self, int_checker,  board):
+#         super().__init__(int_checker, board)
+#         self.staps = []
+#
+#     def make_stap_list(self, checker):
+#         for term in TERMS:
+#             stap = checker + term
+#             one_way_staps = []
+#             while stap in BORDERS:
+#                 one_way_staps.append(stap)
+#                 stap += term
+#             self.staps.append(one_way_staps)
+#
+#     def check_possible_staps_in_stap_list(self):
+#         pass
+#
+#     def check_can_eat(self, checker):
+#         self.make_stap_list(checker)
+#         for one_way_staps in self.staps:
+#             for stap in one_way_staps:
+#                 if stap in self.board and self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and (2 * stap - checker) in self.board and self.board[2 * stap - checker] == EMPTY_CELL and not stap in self.return_eating_checkers_list:
+#                     self.return_eating_checkers_list += [stap]
+#                     print(one_way_staps[(one_way_staps.index(stap)+1):])
+#                     self.return_staps_list += one_way_staps[(one_way_staps.index(stap)):]
+#                     if len(self.return_eating_checkers_list) != 0:
+#                         for next_stap in one_way_staps:
+#                             self.check_can_eat(next_stap, 0)
+#
+# class WhiteQueenChecker(QueenChecker):
+#     def __init__(self, int_checker, board):
+#         super().__init__(int_checker, board)
+#         self.POSSIBLE_EATING_CHECKERS_LIST = [BLACK_CHECKER_CELL, BLACK_QUEEN_CHECKER_CELL]
+#
+#     def get_possible_staps(self):
+#         super().get_possible_staps()
+#         self.check_can_eat(self.int_checker)
+#         if len(self.return_eating_checkers_list) != 0:
+#             self.return_staps_list = [self.return_staps_list[-1]]
+#             return  self.return_staps_list, self.return_eating_checkers_list
+#         # self.make_stap_list(self.int_checker)
+#         for one_way_staps in self.staps:
+#             for stap in one_way_staps:
+#                 if self.board[stap] == WHITE_CHECKER_CELL or self.board[stap] == WHITE_QUEEN_CHECKER_CELL:
+#                     break
+#                 self.return_staps_list.append(stap)
+#
+#         return self.return_staps_list, self.return_eating_checkers_list
+#
+#     def make_stap(self, stap):
+#         super().make_stap(stap)
+#         self.board[stap] = WHITE_QUEEN_CHECKER_CELL
+#
+#
+# class BlackQueenChecker(QueenChecker):
+#     def __init__(self, int_checker, board):
+#         super().__init__(int_checker, board)
+#         self.POSSIBLE_EATING_CHECKERS_LIST = [WHITE_CHECKER_CELL, WHITE_QUEEN_CHECKER_CELL]
+#
+#     def get_possible_staps(self):
+#         super().get_possible_staps()
+#         self.check_can_eat(self.int_checker)
+#         if len(self.return_eating_checkers_list) != 0:
+#             self.return_staps_list = [self.return_staps_list[-1]]
+#             return  self.return_staps_list, self.return_eating_checkers_list
+#         for one_way_staps in self.staps:
+#             for stap in one_way_staps:
+#                 if self.board[stap] == BLACK_CHECKER_CELL or self.board[stap] == BLACK_QUEEN_CHECKER_CELL:
+#                     self.return_staps_list += one_way_staps[one_way_staps.index(stap)-1]
+#                     break
+#         return self.return_staps_list, self.return_eating_checkers_list
+#
+#     def make_stap(self, stap):
+#         super().make_stap(stap)
+#         self.board[stap] = BLACK_QUEEN_CHECKER_CELL
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -300,6 +393,7 @@ class Game:
     def __init__(self):
         self.one_more = True
         self.running = True
+        self.iteration = 2
 
     def check_inp_checker(self, board):
         inp_str_checker = input("Enter the checker, which will go (like A3 or a3): ")
@@ -320,17 +414,17 @@ class Game:
         finally:
             return out_int_checker
 
-    def create_checker(self, out_checker, board, iteration):
+    def create_checker(self, out_checker, board):
         checker = 0
         try:
-            if iteration % 2 == 0:
+            if self.iteration % 2 == 0:
                 if board[out_checker] == WHITE_CHECKER_CELL:
                     checker = WhiteChecker(out_checker, board)
                 elif board[out_checker] == WHITE_QUEEN_CHECKER_CELL:
                     checker = WhiteQueenChecker(out_checker, board)
                 else:
                     raise NotCorrectCell
-            elif iteration % 2 != 0:
+            elif self.iteration % 2 != 0:
                 if board[out_checker] == BLACK_CHECKER_CELL:
                     checker = BlackChecker(out_checker, board)
                 elif board[out_checker] == BLACK_QUEEN_CHECKER_CELL:
@@ -340,24 +434,23 @@ class Game:
         except NotCorrectCell as ex:
             ex(inp=out_checker, err='You chose checker other color.')
             new_out_int_checker = self.check_inp_checker(board)
-            checker = self.create_checker(new_out_int_checker, board, iteration)
+            checker = self.create_checker(new_out_int_checker, board)
         finally:
             return checker
 
-    def check_possible_staps(self, checker, board, iteration):
-        possible_staps = []
-        eating_checkers = []
+    def check_possible_staps(self, checker, board):
+        possible_staps_and_eating_checkers_dict = {}
         try:
-            possible_staps, eating_checkers = checker.get_possible_staps()
-            if len(possible_staps) == 0:
+            possible_staps_and_eating_checkers_dict = checker.get_possible_staps()
+            if len(possible_staps_and_eating_checkers_dict) == 0:
                 raise NotCorrectCell
         except NotCorrectCell as ex:
             ex(checker.int_checker, 'You chose checker, which can not go.')
             new_out_int_checker = self.check_inp_checker(board)
-            new_checker = self.create_checker(new_out_int_checker, board, iteration)
-            possible_staps, eating_checkers = self.check_possible_staps(new_checker, board, iteration)
+            new_checker = self.create_checker(new_out_int_checker, board)
+            possible_staps_and_eating_checkers_dict= self.check_possible_staps(new_checker, board)
         finally:
-            return possible_staps, eating_checkers
+            return possible_staps_and_eating_checkers_dict
 
     def check_inp_stap(self, staps):
         inp_str_stap = input('Enter the stap (like B4 or b4): ')
@@ -398,40 +491,68 @@ class Game:
         finally:
             return running, one_more
 
+    def who_go(self):
+        if self.iteration % 2 == 0:
+            print(Fore.GREEN, 'White go:', Style.RESET_ALL)
+        else:
+            print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
+
+    def check_possible_board_and_make_stap(self, checker, now_board):
+        possible_staps_and_eating_checkers_dict = self.check_possible_staps(checker, now_board.return_board())
+        possible_board = Board(copy.deepcopy(now_board.return_board()))
+        possible_board.make_possible_staps(possible_staps_and_eating_checkers_dict)
+        possible_board.show()
+        del possible_board
+        stap = self.check_inp_stap(possible_staps_and_eating_checkers_dict)
+        checker.make_stap(stap)
+        checker.check_can_eat(stap)
+        if len(checker.return_staps_and_checkers_dict) != 0:
+            temp_checker = 0
+            self.who_go()
+            if type(checker) == WhiteChecker:
+                temp_checker = WhiteChecker(stap, now_board.return_board())
+            elif type(checker) == BlackChecker:
+                temp_checker = BlackChecker(stap, now_board.return_board())
+            elif type(checker) == WhiteQueenChecker or (stap in BORDERS[:8] and type(checker) == WhiteChecker):
+                temp_checker = WhiteQueenChecker(stap, now_board.return_board())
+            elif type(checker) == BlackQueenChecker or (stap in BORDERS[-8:] and type(checker) == BlackChecker):
+                temp_checker = BlackQueenChecker(stap, now_board.return_board())
+            del checker
+            self.check_possible_board_and_make_stap(temp_checker, now_board)
+
     def run(self):
-        init()
         while self.one_more:
             board = copy.deepcopy(BOARD_DICT)
-            iteration = 2  # iteration%2 == 0 go white, iteration%2 != 0 - go black
+            self.iteration = 2  # iteration%2 == 0 go white, iteration%2 != 0 - go black
             while self.running:
                 now_board = Board(board)
                 now_board.show()
-                if iteration % 2 == 0:
-                    print(Fore.GREEN, 'White go:', Style.RESET_ALL)
-                else:
-                    print(Fore.GREEN, 'Black go:', Style.RESET_ALL)
+                self.who_go()
                 out_int_checker = self.check_inp_checker(now_board.return_board())
-                checker = self.create_checker(out_int_checker, now_board.return_board(), iteration)
-                possible_staps_list, eating_checkers_list = self.check_possible_staps(checker, now_board.return_board(), iteration)
+                checker = self.create_checker(out_int_checker, now_board.return_board())
+                self.check_possible_board_and_make_stap(checker, now_board)
 
-                possible_board = Board(copy.deepcopy(now_board.return_board()))
-                possible_board.make_possible_staps(possible_staps_list, eating_checkers_list)
-                possible_board.show()
-                del possible_board
-
-                stap = self.check_inp_stap(possible_staps_list)
-                checker.make_stap(stap)
+                # possible_staps_and_eating_checkers_dict = self.check_possible_staps(checker, now_board.return_board())
+                # possible_board = Board(copy.deepcopy(now_board.return_board()))
+                # possible_board.make_possible_staps(possible_staps_and_eating_checkers_dict)
+                # possible_board.show()
+                # del possible_board
+                #
+                # stap = self.check_inp_stap(possible_staps_and_eating_checkers_dict)
+                # checker.make_stap(stap)
 
                 iw = now_board.is_win()
                 if iw != 0:
                     print(iw)
                     self.running, self.one_more = self.check_enter_chose_win_game()
 
-                iteration += 1
+                self.iteration += 1
                 del checker
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 def main():
+    init()
     game = Game()
     game.run()
 

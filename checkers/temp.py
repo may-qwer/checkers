@@ -1,4 +1,5 @@
-k = {1: 'one', 2: 'two'}
-k[3] = 'tree'
-print(k)
-print(k[-1])
+class KTemp:
+    pass
+
+k = KTemp()
+print(type(k) == KTemp)
