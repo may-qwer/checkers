@@ -299,8 +299,9 @@ class BlackChecker(Checker):
 #----------------------------------------------------------------------------------------------------------------------
 
 class QueenChecker(Checker):
-    pass
-
+    def __init__(self, int_checker, board):
+        super().__init__(int_checker, board)
+        
 
 class WhiteQueenChecker(QueenChecker):
     pass
