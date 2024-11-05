@@ -40,10 +40,10 @@ WHITE_WIN = Fore.CYAN + 'White WIN!!! Congratulations!!!' + Style.RESET_ALL
 BOARD_DICT = {
               18: EMPTY_CELL, 28: BLACK_CHECKER_CELL, 38: EMPTY_CELL, 48: BLACK_CHECKER_CELL, 58: EMPTY_CELL, 68: BLACK_CHECKER_CELL, 78: EMPTY_CELL, 88: BLACK_CHECKER_CELL,
               17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: BLACK_CHECKER_CELL, 47: EMPTY_CELL, 57: BLACK_CHECKER_CELL, 67: EMPTY_CELL, 77: BLACK_CHECKER_CELL, 87: EMPTY_CELL,
-              16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: EMPTY_CELL, 56: EMPTY_CELL, 66: EMPTY_CELL, 76: EMPTY_CELL, 86: BLACK_CHECKER_CELL,
-              15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: BLACK_CHECKER_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
-              14: EMPTY_CELL, 24: WHITE_CHECKER_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: WHITE_CHECKER_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
-              13: EMPTY_CELL, 23: EMPTY_CELL, 33: WHITE_CHECKER_CELL, 43: EMPTY_CELL, 53: WHITE_CHECKER_CELL, 63: EMPTY_CELL, 73: WHITE_CHECKER_CELL, 83: EMPTY_CELL,
+              16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: EMPTY_CELL, 56: EMPTY_CELL, 66: BLACK_CHECKER_CELL, 76: EMPTY_CELL, 86: BLACK_CHECKER_CELL,
+              15: EMPTY_CELL, 25: EMPTY_CELL, 35: BLACK_CHECKER_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
+              14: EMPTY_CELL, 24: EMPTY_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
+              13: WHITE_CHECKER_CELL, 23: EMPTY_CELL, 33: WHITE_CHECKER_CELL, 43: EMPTY_CELL, 53: WHITE_CHECKER_CELL, 63: EMPTY_CELL, 73: WHITE_CHECKER_CELL, 83: EMPTY_CELL,
               12: EMPTY_CELL, 22: WHITE_CHECKER_CELL, 32: EMPTY_CELL, 42: WHITE_CHECKER_CELL, 52: EMPTY_CELL, 62: WHITE_CHECKER_CELL, 72: EMPTY_CELL, 82: WHITE_CHECKER_CELL,
               11: WHITE_CHECKER_CELL, 21: EMPTY_CELL, 31: WHITE_CHECKER_CELL, 41: EMPTY_CELL, 51: WHITE_CHECKER_CELL, 61: EMPTY_CELL, 71: WHITE_CHECKER_CELL, 81:  EMPTY_CELL
 }
@@ -385,21 +385,22 @@ class Game:
         possible_board.show()
         del possible_board
         temp_checker = 0
-        self.who_go()
         stap = self.check_inp_stap(possible_staps_and_eating_checkers_dict)
         checker.make_stap(stap)
-        checker.check_can_eat(stap)
+        print(checker.return_staps_and_checkers_dict, checker)
         if len(checker.return_staps_and_checkers_dict) != 0:
-            if type(checker) == WhiteChecker:
-                temp_checker = WhiteChecker(stap, now_board.return_board())
-            elif type(checker) == BlackChecker:
-                temp_checker = BlackChecker(stap, now_board.return_board())
-            elif type(checker) == WhiteQueenChecker or (stap in BORDERS[:8] and type(checker) == WhiteChecker):
-                temp_checker = WhiteQueenChecker(stap, now_board.return_board())
-            elif type(checker) == BlackQueenChecker or (stap in BORDERS[-8:] and type(checker) == BlackChecker):
-                temp_checker = BlackQueenChecker(stap, now_board.return_board())
-            del checker
-            self.check_possible_board_and_make_stap(temp_checker, now_board)
+            checker.check_can_eat(stap)
+            if len(checker.return_staps_and_checkers_dict) != 0:
+                if type(checker) == WhiteChecker:
+                    temp_checker = WhiteChecker(stap, now_board.return_board())
+                elif type(checker) == BlackChecker:
+                    temp_checker = BlackChecker(stap, now_board.return_board())
+                elif type(checker) == WhiteQueenChecker or (stap in BORDERS[:8] and type(checker) == WhiteChecker):
+                    temp_checker = WhiteQueenChecker(stap, now_board.return_board())
+                elif type(checker) == BlackQueenChecker or (stap in BORDERS[-8:] and type(checker) == BlackChecker):
+                    temp_checker = BlackQueenChecker(stap, now_board.return_board())
+                del checker
+                self.check_possible_board_and_make_stap(temp_checker, now_board)
 
     def check_can_eat_for_all_checkers(self, now_board):
         possible_staps_and_eating_checkers_for_all_checkers_dict = {} # {checker: {return_staps_and_checkers_dict}}
@@ -432,19 +433,23 @@ class Game:
                     del temp_checker
         return possible_staps_and_eating_checkers_for_all_checkers_dict
 
+    def show_possible_staps_for_all_checkers(self, now_board):
+        temp_now_board = copy.deepcopy(now_board)
+        self.possible_staps_and_eating_checkers_for_all_checkers_dict = self.check_can_eat_for_all_checkers(temp_now_board.return_board())
+        if len(self.possible_staps_and_eating_checkers_for_all_checkers_dict) == 0:
+            return now_board
+        else:
+            for ch in self.possible_staps_and_eating_checkers_for_all_checkers_dict:
+                temp_now_board.make_possible_staps(self.possible_staps_and_eating_checkers_for_all_checkers_dict[ch])
+            return temp_now_board
+
     def run(self):
         while self.one_more:
             board = copy.deepcopy(BOARD_DICT)
             self.iteration = 2  # iteration%2 == 0 go white, iteration%2 != 0 - go black
             while self.running:
                 now_board = Board(board)
-                self.possible_staps_and_eating_checkers_for_all_checkers_dict = self.check_can_eat_for_all_checkers(now_board.return_board())
-                if len(self.possible_staps_and_eating_checkers_for_all_checkers_dict) == 0:
-                    now_board.show()
-                else:
-                    for ch in self.possible_staps_and_eating_checkers_for_all_checkers_dict:
-                        now_board.make_possible_staps(self.possible_staps_and_eating_checkers_for_all_checkers_dict[ch])
-                    now_board.show()
+                self.show_possible_staps_for_all_checkers(now_board).show()
                 self.who_go()
                 out_int_checker = self.check_inp_checker(now_board.return_board())
                 checker = self.create_checker(out_int_checker, now_board.return_board())
