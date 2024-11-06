@@ -221,10 +221,10 @@ class QueenChecker(Checker):
     def check_can_eat(self, checker):
         self.make_stap_list(checker)
         for one_way_staps in self.all_staps_list:
-            for stap in one_way_staps:
-                if self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and (2 * stap - checker) in self.board and self.board[2 * stap - checker] == EMPTY_CELL:
-                    self.return_staps_and_checkers_dict.update({i: stap for i in one_way_staps[one_way_staps.index(stap)+1:]})# [2*stap - checker] = stap # {stap: eating_checker}
-
+            for stap_index, stap in one_way_staps:
+                if self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST:
+                    if one_way_staps[2*stap - checker] in self.board and self.board[one_way_staps[next_stap]] == EMPTY_CELL:
+                        self.return_staps_and_checkers_dict.update({i: stap for i in one_way_staps[one_way_staps.index(stap)+1:]})# [2*stap - checker] = stap # {stap: eating_checker}
 
     def get_possible_staps(self):
         super().get_possible_staps()
