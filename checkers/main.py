@@ -73,13 +73,9 @@ BORDERS = [
 TERMS = [11, -11, 9, -9]
 
 
-def neighborhood(iterable):
-    if len(iterable) != 0:
-        iterator = iter(iterable)
-        current_item = next(iterator)
-        for next_item in iterator:
-            yield (current_item, next_item)
-            current_item = next_item
+
+
+
 
 #----------------------------------------------------------------------------------------------------------------------
 
@@ -106,9 +102,13 @@ class Board:
     def return_board(self):
         return self.board
 
-    def make_possible_staps(self, stap_and_eating_checker_dict):
+    def make_possible_staps(self, stap_and_eating_checker_dict, checker):
         for stap, eating_checker in stap_and_eating_checker_dict.items():
-            self.board[stap] = POSSIBLE_CELL
+            print(self.board[checker])
+            if self.board[checker] in [WHITE_CHECKER_CELL, BLACK_CHECKER_CELL]:
+                self.board[stap] = POSSIBLE_CELL
+            elif self.board[checker] in [WHITE_QUEEN_CHECKER_CELL, BLACK_QUEEN_CHECKER_CELL]:
+                self.board[stap] = POSSIBLE_QUEEN_CELL
             if eating_checker != 0:
                 if self.board[eating_checker] in self.POSSIBLE_CHECKERS:
                     self.board[eating_checker] = EATING_CHECKER_CELL
@@ -223,6 +223,39 @@ class QueenChecker(Checker):
         super().__init__(int_checker, board)
         self.all_staps_list = []
 
+    @staticmethod
+    def neighborhood(iterable):
+        if len(iterable) != 0:
+            iterator = iter(iterable)
+            current_item = next(iterator)
+            for next_item in iterator:
+                yield (current_item, next_item)
+                current_item = next_item
+
+    @staticmethod
+    def generator_with_stop(arr, stap, next_stap, stop_item):
+        temp_dict = {i: stap for i in arr[arr.index(next_stap):]}
+        for key, value in temp_dict.items():
+            if key == stop_item:
+                break
+            return {key: value}
+
+    def search_eating_in_one_way_staps(self, one_way_staps):
+        for stap, next_stap in self.neighborhood(one_way_staps):
+            if self.board[stap] == EMPTY_CELL:
+                continue
+            elif self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and self.board[next_stap] == EMPTY_CELL:
+                item_stop = len(one_way_staps)+1
+                for i in one_way_staps[next_stap:]:
+                    if self.board[i] !=EMPTY_CELL:
+                        item_stop = i
+                        break
+                temp_stap = self.generator_with_stop(one_way_staps, stap, next_stap, item_stop)
+                self.return_staps_and_checkers_dict.update(temp_stap)
+                break
+            else:
+                break
+
     def make_stap_list(self, checker):
         for term in TERMS:
             stap = checker + term
@@ -233,22 +266,10 @@ class QueenChecker(Checker):
             self.all_staps_list.append(one_way_staps)
 
     def check_can_eat(self, checker):
+        self.return_staps_and_checkers_dict = {}
         self.make_stap_list(checker)
         for one_way_staps in self.all_staps_list:
-            for stap, next_stap in neighborhood(one_way_staps):
-                if self.board[stap] == EMPTY_CELL:
-                    continue
-                elif self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and  self.board[next_stap] == EMPTY_CELL:
-                    for i in one_way_staps[one_way_staps.index(stap)+1:]:
-                        if self.board[i] == EMPTY_CELL:
-                            self.return_staps_and_checkers_dict.update({i:stap})
-                        else:
-                            break
-
-                    # self.return_staps_and_checkers_dict.update({i: stap for i in one_way_staps[one_way_staps.index(stap)+1:] if self.board[i] == EMPTY_CELL})# {stap: eating_checker}
-                else:
-                    break
-        print(self.return_staps_and_checkers_dict)
+            self.search_eating_in_one_way_staps(one_way_staps)
 
     def get_possible_staps(self):
         super().get_possible_staps()
@@ -273,7 +294,6 @@ class WhiteQueenChecker(QueenChecker):
     def make_stap(self, stap):
         super().make_stap(stap)
         self.board[stap] = WHITE_QUEEN_CHECKER_CELL
-        self.return_staps_and_checkers_dict = {}
 
 
 class BlackQueenChecker(QueenChecker):
@@ -284,7 +304,6 @@ class BlackQueenChecker(QueenChecker):
     def make_stap(self, stap):
         super().make_stap(stap)
         self.board[stap] = WHITE_QUEEN_CHECKER_CELL
-        self.return_staps_and_checkers_dict = {}
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -405,18 +424,15 @@ class Game:
     def check_possible_board_and_make_stap(self, checker, now_board):
         possible_staps_and_eating_checkers_dict = self.check_possible_staps(checker, now_board.return_board())
         possible_board = Board(copy.deepcopy(now_board.return_board()))
-        possible_board.make_possible_staps(possible_staps_and_eating_checkers_dict)
+        possible_board.make_possible_staps(possible_staps_and_eating_checkers_dict, checker.int_checker)
         possible_board.show()
         del possible_board
         temp_checker = 0
         stap = self.check_inp_stap(possible_staps_and_eating_checkers_dict)
         checker.make_stap(stap)
-        print(1)
         if len(checker.return_staps_and_checkers_dict) != 0:
             checker.check_can_eat(stap)
-            print(2, checker.return_staps_and_checkers_dict)
             if len(checker.return_staps_and_checkers_dict) != 0:
-                print(3)
                 if type(checker) == WhiteChecker:
                     temp_checker = WhiteChecker(stap, now_board.return_board())
                 elif type(checker) == BlackChecker:
@@ -466,7 +482,7 @@ class Game:
             now_board.show()
         else:
             for ch in self.possible_staps_and_eating_checkers_for_all_checkers_dict:
-                temp_now_board.make_possible_staps(self.possible_staps_and_eating_checkers_for_all_checkers_dict[ch])
+                temp_now_board.make_possible_staps(self.possible_staps_and_eating_checkers_for_all_checkers_dict[ch], ch)
             now_board.show()
             temp_now_board.show()
 

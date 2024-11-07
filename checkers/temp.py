@@ -1,13 +1,16 @@
-def neighborhood(iterable):
-    if len(iterable) != 0:
-        iterator = iter(iterable)
-        current_item = next(iterator)
-        for next_item in iterator:
-            yield (current_item, next_item)
-            current_item = next_item
+# def generator_with_stop(arr, stap, next_stap, stop_item):
+#     temp_dict = {i: stap for i in arr[next_stap:]}
+#     for key, value in temp_dict.items():
+#         if key == stop_item:
+#             break
+#         yield {key: value}
+#
+# k = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+# l = {}
+# for item in generator_with_stop(k, 3, 4, 6):
+#     l.update(item)
+# print(l)
 
-k = []
-l = {1: 'one', 2: 'two', 3: 'tree', 4: 'four'}
-for i, j in neighborhood(k):
-    print(i, j)
-    print(l[i])
+l = [11, 22, 33, 44, 55, 66, 77, 88, 99, 100]
+print(l[1])
+print(l[l.index(44)])
