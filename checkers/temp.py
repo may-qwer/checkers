@@ -1,4 +1,13 @@
-l = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+def neighborhood(iterable):
+    if len(iterable) != 0:
+        iterator = iter(iterable)
+        current_item = next(iterator)
+        for next_item in iterator:
+            yield (current_item, next_item)
+            current_item = next_item
 
-for i, j in zip(l, l[1:]):
+k = []
+l = {1: 'one', 2: 'two', 3: 'tree', 4: 'four'}
+for i, j in neighborhood(k):
     print(i, j)
+    print(l[i])

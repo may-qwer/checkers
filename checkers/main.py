@@ -28,12 +28,12 @@ WHITE_WIN = Fore.CYAN + 'White WIN!!! Congratulations!!!' + Style.RESET_ALL
 
 BOARD_DICT = {
               18: EMPTY_CELL, 28: EMPTY_CELL, 38: EMPTY_CELL, 48: EMPTY_CELL, 58: EMPTY_CELL, 68: EMPTY_CELL, 78: EMPTY_CELL, 88: EMPTY_CELL,
-              17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: EMPTY_CELL, 47: EMPTY_CELL, 57: BLACK_CHECKER_CELL, 67: EMPTY_CELL, 77: EMPTY_CELL, 87: EMPTY_CELL,
-              16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: BLACK_CHECKER_CELL, 56: EMPTY_CELL, 66: EMPTY_CELL, 76: EMPTY_CELL, 86: EMPTY_CELL,
-              15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: EMPTY_CELL, 65: EMPTY_CELL, 75: EMPTY_CELL, 85: EMPTY_CELL,
+              17: BLACK_CHECKER_CELL, 27: EMPTY_CELL, 37: EMPTY_CELL, 47: EMPTY_CELL, 57: BLACK_CHECKER_CELL, 67: EMPTY_CELL, 77: BLACK_CHECKER_CELL, 87: EMPTY_CELL,
+              16: EMPTY_CELL, 26: EMPTY_CELL, 36: EMPTY_CELL, 46: BLACK_CHECKER_CELL, 56: EMPTY_CELL, 66: EMPTY_CELL, 76: EMPTY_CELL, 86: BLACK_CHECKER_CELL,
+              15: EMPTY_CELL, 25: EMPTY_CELL, 35: EMPTY_CELL, 45: EMPTY_CELL, 55: BLACK_CHECKER_CELL, 65: EMPTY_CELL, 75: BLACK_CHECKER_CELL, 85: EMPTY_CELL,
               14: EMPTY_CELL, 24: WHITE_QUEEN_CHECKER_CELL, 34: EMPTY_CELL, 44: EMPTY_CELL, 54: EMPTY_CELL, 64: EMPTY_CELL, 74: EMPTY_CELL, 84: EMPTY_CELL,
-              13: EMPTY_CELL, 23: EMPTY_CELL, 33: EMPTY_CELL, 43: EMPTY_CELL, 53: EMPTY_CELL, 63: EMPTY_CELL, 73: EMPTY_CELL, 83: EMPTY_CELL,
-              12: EMPTY_CELL, 22: EMPTY_CELL, 32: EMPTY_CELL, 42: EMPTY_CELL, 52: EMPTY_CELL, 62: EMPTY_CELL, 72: EMPTY_CELL, 82: EMPTY_CELL,
+              13: EMPTY_CELL, 23: EMPTY_CELL, 33: WHITE_QUEEN_CHECKER_CELL, 43: EMPTY_CELL, 53: BLACK_CHECKER_CELL, 63: EMPTY_CELL, 73: EMPTY_CELL, 83: EMPTY_CELL,
+              12: EMPTY_CELL, 22: EMPTY_CELL, 32: EMPTY_CELL, 42: WHITE_QUEEN_CHECKER_CELL, 52: EMPTY_CELL, 62: EMPTY_CELL, 72: EMPTY_CELL, 82: EMPTY_CELL,
               11: EMPTY_CELL, 21: EMPTY_CELL, 31: EMPTY_CELL, 41: EMPTY_CELL, 51: EMPTY_CELL, 61: EMPTY_CELL, 71: EMPTY_CELL, 81:  EMPTY_CELL
 }
 
@@ -72,11 +72,22 @@ BORDERS = [
 
 TERMS = [11, -11, 9, -9]
 
+
+def neighborhood(iterable):
+    if len(iterable) != 0:
+        iterator = iter(iterable)
+        current_item = next(iterator)
+        for next_item in iterator:
+            yield (current_item, next_item)
+            current_item = next_item
+
 #----------------------------------------------------------------------------------------------------------------------
 
 class Board:
     def __init__(self, board):
         self.board = board
+        self.POSSIBLE_QUEEN_CHECKERS = [BLACK_QUEEN_CHECKER_CELL, WHITE_QUEEN_CHECKER_CELL]
+        self.POSSIBLE_CHECKERS = [WHITE_CHECKER_CELL, BLACK_CHECKER_CELL]
 
     def show(self):
         checker_pos = 18
@@ -99,7 +110,10 @@ class Board:
         for stap, eating_checker in stap_and_eating_checker_dict.items():
             self.board[stap] = POSSIBLE_CELL
             if eating_checker != 0:
-                self.board[eating_checker] = EATING_CHECKER_CELL
+                if self.board[eating_checker] in self.POSSIBLE_CHECKERS:
+                    self.board[eating_checker] = EATING_CHECKER_CELL
+                elif self.board[eating_checker] in self.POSSIBLE_QUEEN_CHECKERS:
+                    self.board[eating_checker] = EATING_QUEEN_CHECKER_CELL
 
     def is_win(self):
         count = [0, 0] # count[0] - white, count[1] - black
@@ -221,10 +235,20 @@ class QueenChecker(Checker):
     def check_can_eat(self, checker):
         self.make_stap_list(checker)
         for one_way_staps in self.all_staps_list:
-            for stap_index, stap in one_way_staps:
-                if self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST:
-                    if one_way_staps[2*stap - checker] in self.board and self.board[one_way_staps[next_stap]] == EMPTY_CELL:
-                        self.return_staps_and_checkers_dict.update({i: stap for i in one_way_staps[one_way_staps.index(stap)+1:]})# [2*stap - checker] = stap # {stap: eating_checker}
+            for stap, next_stap in neighborhood(one_way_staps):
+                if self.board[stap] == EMPTY_CELL:
+                    continue
+                elif self.board[stap] in self.POSSIBLE_EATING_CHECKERS_LIST and  self.board[next_stap] == EMPTY_CELL:
+                    for i in one_way_staps[one_way_staps.index(stap)+1:]:
+                        if self.board[i] == EMPTY_CELL:
+                            self.return_staps_and_checkers_dict.update({i:stap})
+                        else:
+                            break
+
+                    # self.return_staps_and_checkers_dict.update({i: stap for i in one_way_staps[one_way_staps.index(stap)+1:] if self.board[i] == EMPTY_CELL})# {stap: eating_checker}
+                else:
+                    break
+        print(self.return_staps_and_checkers_dict)
 
     def get_possible_staps(self):
         super().get_possible_staps()
@@ -239,7 +263,7 @@ class QueenChecker(Checker):
                     break
         self.return_staps_and_checkers_dict = {k: 0 for k in temp_staps}
         return self.return_staps_and_checkers_dict
-        
+
 
 class WhiteQueenChecker(QueenChecker):
     def __init__(self, int_checker, board):
